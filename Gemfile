@@ -10,4 +10,8 @@ group :jekyll_plugins do
 end
 
 gem 'github-pages'
+
+# Add this line for Windows time zone data
+gem 'tzinfo-data', '~> 1.2023.1', platforms: [:mingw, :mswin, :x64_mingw]
+
 gem 'connection_pool', '2.5.0'

@@ -1,5 +1,22 @@
-<!-- MathJax v3 -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  // If some other code defined a getter-only window.Package, delete it so MathJax can initialize.
+  (function(){
+    const desc = Object.getOwnPropertyDescriptor(window, 'Package');
+    if (desc && typeof desc.get === 'function' && !desc.set) {
+      delete window.Package;
+    }
+  })();
+
+  // MathJax configuration
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+  };
+</script>
+
+<!-- ES5 polyfill (needed by the tex-chtml loader) -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/polyfill.js"></script>
+
+<!-- MathJax TeX→CHTML loader -->
 <script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script>
