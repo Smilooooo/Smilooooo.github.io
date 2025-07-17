@@ -23,9 +23,9 @@ Join us as we explore the capabilities of PIGEON!
    - [CLIP](#clip)  
 2. [PIGEON](#pigeon)  
    - [Geocell Division](#geocell-division)  
-   - [Synthetic Image Captions](#synthetic-image-captions)  
+   - [Synthetic Image Captions](#synthetic-image-captions)    
+   - [Distance-Based Label Smoothing](#distance-based-label-smoothing)
    - [Location Cluster Retrieval](#location-cluster-retrieval)  
-   - [Distance-Based Label Smoothing](#distance-based-label-smoothing)  
 3. [Experiments](#experiments)  
    - [Experimental Setting](#experimental-setting)  
    - [Evaluation](#evaluation)  
@@ -117,6 +117,28 @@ With the rise and success of Transformer architecture in Deep Learning - more sp
 - Added to each image, containing information about the location (e.g., climate, region, season, etc.)
 - CLIP uses these to better generalize the given images
 
+### Distance-Based Label Smoothing
+
+One of PIGEON’s main contributions is joining the discrete nature of geocell classification with the continuous structure of the Earth’s surface. Traditional approaches treat each geocell as an independent class, penalizing all mistakes equally even when two cells lie side by side and the true location lies in between the two cells. In reality, misclassifying neighboring regions is far less severe than misclassifying two distant continents. To address this problem, PIGEON introduces a novel Haversine-smoothed loss that explicitly models spatial relations between geocells.
+
+At its core, the technique computes the great-circle (Haversine) distance between every geocell’s centroid and the true image location. The great-circle distance between two points on the surface of a sphere is the shortest distance along the surface, accounting for the sphere’s curvature.
+Instead of a one-hot target, each training example is assigned a soft label vector $y_{n,i}$ over all cells $i$, where
+
+$$
+y_{n,i} = \exp\!\left(-\frac{\mathrm{Hav}(g_i, x_n) - \mathrm{Hav}(g_{\mathrm{true}}, x_n)}{\tau}\right)
+$$
+
+with $\mathrm{Hav}(\cdot,\cdot)$ measuring kilometers along Earth’s surface and $\tau$ a temperature hyperparameter controlling smoothing sharpness. Geocells whose centers lie closer to the ground truth receive higher weights, naturally biasing the model toward geographically plausible neighbors.
+
+Training then minimizes a cross-entropy–style loss against these smoothed targets:
+
+$$
+L_n = - \sum_i y_{n,i}\,\log p_{n,i},
+$$
+
+where $p_{n,i}$ is the model’s predicted probability for cell $i$. This distance-aware objective not only penalizes large mistakes more heavily but also enables PIGEON to learn an implicit multi-scale hierarchy, first pinpointing coarse regions before zooming in on finer distinctions. Picking up the example used at the start of this section, PIGEON now assigns similar target variables to both cells since the distance from the true location to the center of the true geocells is the same as the distance between the true location and the center of the neighboring cell. This ultimately introduces spatial relations between the cells.
+
+
 
 ### Location Cluster Retrieval
 
@@ -124,11 +146,6 @@ With the rise and success of Transformer architecture in Deep Learning - more sp
 - Intra-Geocell: Cluster the training data within each cluster using OPTICS, then pick location of most similar data point
 - Final Prediction: Combine scores from both levels to select the most likely location across all top-K geocells
 
-
-### Distance-Based Label Smoothing
-
-- haversine-smoothed loss function 
-- Advantages of this approach: Spatial Relationship, better Generalization, Samples on geocell borders are better represented
 
 
 ---
