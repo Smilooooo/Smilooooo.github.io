@@ -25,9 +25,11 @@ Join us as we explore the capabilities of PIGEON!
    - [Geocell Division](#geocell-division)  
    - [Synthetic Image Captions](#synthetic-image-captions)    
    - [Distance-Based Label Smoothing](#distance-based-label-smoothing)
-   - [Location Cluster Retrieval](#location-cluster-retrieval)  
+   - [Hierarchical Retrieval-Based Refinement](hierarchical-retrieval-based-refinement)  
 3. [Experiments](#experiments)  
    - [Experimental Setting](#experimental-setting)  
+   - [Qualitative Analysis]
+   - [Quantative Analysis] 
    - [Evaluation](#evaluation)  
    - [Ablations](#ablations)  
 4. [Ethical Considerations](#ethical-considerations)  
@@ -122,7 +124,7 @@ With the rise and success of Transformer architecture in Deep Learning - more sp
 One of PIGEON’s main contributions is joining the discrete nature of geocell classification with the continuous structure of the Earth’s surface. Traditional approaches treat each geocell as an independent class, penalizing all mistakes equally even when two cells lie side by side and the true location lies in between the two cells. In reality, misclassifying neighboring regions is far less severe than misclassifying two distant continents. To address this problem, PIGEON introduces a novel Haversine-smoothed loss that explicitly models spatial relations between geocells.
 
 At its core, the technique computes the great-circle (Haversine) distance between every geocell’s centroid and the true image location. The great-circle distance between two points on the surface of a sphere is the shortest distance along the surface, accounting for the sphere’s curvature.
-Instead of a one-hot target, each training example is assigned a soft label vector $$y_{n,i}$$ over all cells $i$, where
+Instead of a one-hot target, each training example is assigned a soft label vector $$y_{n,i}$$ over all cells $$i$$, where
 
 $$
 y_{n,i} = \exp\!\left(-\frac{\mathrm{Hav}(g_i, x_n) - \mathrm{Hav}(g_{\mathrm{true}}, x_n)}{\tau}\right)
@@ -138,13 +140,26 @@ $$
 
 where $$p_{n,i}$$ is the model’s predicted probability for cell $i$. This distance-aware objective not only penalizes large mistakes more heavily but also enables PIGEON to learn an implicit multi-scale hierarchy, first pinpointing coarse regions before zooming in on finer distinctions. Picking up the example used at the start of this section, PIGEON now assigns similar target variables to both cells since the distance from the true location to the center of the true geocells is the same as the distance between the true location and the center of the neighboring cell. This ultimately introduces spatial relations between the cells.
 
+| ![Haversine smoothing curves](/images/haversineLoss.png) |
+|:---:|           
+|Training without and with haversine smoothing. |
 
 
-### Location Cluster Retrieval
 
-- Inter-Geocell: Predict the top-K most likely geocells
-- Intra-Geocell: Cluster the training data within each cluster using OPTICS, then pick location of most similar data point
-- Final Prediction: Combine scores from both levels to select the most likely location across all top-K geocells
+### Hierarchical Retrieval-Based Refinement
+
+Building on its powerful geocell classification, PIGEON further refines its location estimates through a three-level, coarse-to-fine retrieval mechanism.  
+
+**Top layer:** PIGEON first selects its top K = 5 candidate geocells based on the pretrained CLIP-ViT probabilities.  
+
+**Middle layer:** Within each predicted cell, training points are clustered using the OPTICS density-based algorithm, and each cluster is represented by the centroid of its CLIP image embeddings. During inference, the query embedding is assigned to the nearest cluster in Euclidean space.  
+
+**Bottom layer:** Finally, PIGEON selects the single closest location within that cluster—adding two extra levels of granularity beyond the initial cell prediction.
+
+![Three-level hierarchical retrieval diagram](/images/threeLayers.png)
+
+To integrate these multi-scale cues, PIGEON multiplies each geocell’s original probability by a refinement score derived from a temperature-scaled softmax over the cluster distances. This joint scoring across all top K cells yields a final geolocation estimate that balances global confidence with local embedding proximity.
+
 
 
 
@@ -154,13 +169,32 @@ where $$p_{n,i}$$ is the model’s predicted probability for cell $i$. This dist
 
 ### Experimental Setting
 
-- Models evaluated in five distance distance radii
-- median distance error to the correct location as the primary metric
-- PIGEON: trained on GeoGuessr data (Google Street View data), tested on 5000 streetview locations, GeoGuessr score as additional metric
-- PIGEOTTO: trained on more general images, tested on benchmark datasets
+<!-- TODO new introduction-->
+To assess how well PIGEON performs at geolocating images, the researchers designed a two-pronged evaluation using both synthetic setups and real-world conditions—each tailored to a specific use case.
+
+**For PIGEON**, which is optimized for Street View images like in GeoGuessr, the authors collected a dataset of 100,000 locations from the game. At each location, they captured a 360-degree view using four images spaced evenly around the compass. This panorama-style input helps the model detect geographical cues like vegeatation. In total, the training data amounted to 400,000 images.
+
+To evaluate PIGEON’s accuracy, the researchers used a separate holdout set of 5,000 unseen GeoGuessr locations. Importantly, they didn’t just rely on offline metrics. They also deployed PIGEON live into GeoGuessr using a custom Chrome extension bot. This allowed for direct comparisons against players across all skill levels—including one of the world’s top-ranked professionals. 
+
+| ![Geoguessr Panorama](/images/panoramaGeoguessr.png) |
+|:---:|           
+|Four images comprising a 360-degree panorama from a location in Pegswood, England|
+
+**For PIGEOTTO**, the broader model designed to handle general-purpose geolocation from a single image, the researchers gathered over 4.5 million images from Flickr and Wikipedia (including landmarks from the Google Landmarks v2 dataset). Instead of Street View, these images came from diverse, user-generated content around the world.
+
+<!-- TODO Unsure if should be kept -->
+PIGEOTTO was tested on several standard geolocation benchmarks—including IM2GPS, YFCC4k, and the particularly challenging GWS15k—to see how it would perform on out-of-distribution data. These benchmarks evaluate how many guesses fall within different distance thresholds (like 25 km or 200 km from the correct location) and measure median error in kilometers.
+
+| ![PIGEOTTA images](/images/pigeottoRandom.png) |
+|:---:|           
+|Four samples from the MediaEval 2016 dataset|
+
+To summarize, while PIGEON was built to master the game of GeoGuessr using panoramic Street View inputs, PIGEOTTO was trained for general image geolocation on a planetary scale. The careful separation of data sources and testing conditions ensured that each model was evaluated fairly in its respective domain.
+ 
 
 
-### Evaluation
+
+### Qualitative Analysis
 
 PIGEON:
 
@@ -171,6 +205,9 @@ PIGEON:
 PIGEOTTO:
 - Present Benchmark results
 
+
+### Quantitative Analysis
+- safsaf
 
 ### Ablations
 
