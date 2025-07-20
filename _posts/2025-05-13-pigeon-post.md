@@ -21,16 +21,16 @@ Join us as we explore the capabilities of PIGEON!
    - [LLM](#llm)  
    - [Vision Transformer (ViT)](#vision-transformer-vit)  
    - [CLIP](#clip)  
-2. [PIGEON](#pigeon)  
+2. [PIGEON/PIGEOTTO](#pigeon)
+   - [Related Work](#related-work)
    - [Geocell Division](#geocell-division)  
    - [Synthetic Image Captions](#synthetic-image-captions)    
    - [Distance-Based Label Smoothing](#distance-based-label-smoothing)
-   - [Hierarchical Retrieval-Based Refinement](hierarchical-retrieval-based-refinement)  
+   - [Hierarchical Retrieval-Based Refinement](#hierarchical-retrieval-based-refinement)  
 3. [Experiments](#experiments)  
    - [Experimental Setting](#experimental-setting)  
-   - [Qualitative Analysis]
-   - [Quantative Analysis] 
-   - [Evaluation](#evaluation)  
+   - [Qualitative Analysis](#qualitative-analysis)
+   - [Quantative Analysis](#quantitative-analysis)  
    - [Ablations](#ablations)  
 4. [Ethical Considerations](#ethical-considerations)  
 5. [Conclusion](#conclusion)
@@ -106,7 +106,9 @@ With the rise and success of Transformer architecture in Deep Learning - more sp
 
 ---
 
-## PIGEON
+## PIGEON/PIGEOTTO
+
+### Related Work
 
 ### Geocell Division
 
@@ -169,23 +171,24 @@ To integrate these multi-scale cues, PIGEON multiplies each geocell’s original
 
 ### Experimental Setting
 
-<!-- TODO new introduction-->
-To assess how well PIGEON performs at geolocating images, the researchers designed a two-pronged evaluation using both synthetic setups and real-world conditions—each tailored to a specific use case.
 
-**For PIGEON**, which is optimized for Street View images like in GeoGuessr, the authors collected a dataset of 100,000 locations from the game. At each location, they captured a 360-degree view using four images spaced evenly around the compass. This panorama-style input helps the model detect geographical cues like vegeatation. In total, the training data amounted to 400,000 images.
+Now that we know how the methods behind the model, we still need to explain what data the models were trained on since here lies the main difference between PIGEON and PIGEOTTO besides the setting of some hyperparameters. Then for each model the authors use a evaluation method specifically tailored for the use case of the model using both synthetic setups and real-world conditions. 
 
-To evaluate PIGEON’s accuracy, the researchers used a separate holdout set of 5,000 unseen GeoGuessr locations. Importantly, they didn’t just rely on offline metrics. They also deployed PIGEON live into GeoGuessr using a custom Chrome extension bot. This allowed for direct comparisons against players across all skill levels—including one of the world’s top-ranked professionals. 
+**For PIGEON**, which is optimized for Street View images like in GeoGuessr, the authors collected a dataset of 100,000 locations from the game. At each location, they captured a 360-degree view using four images spaced evenly around the compass. This panorama-style input helps the model detect geographical cues like vegetation. In total, the training data amounted to 400,000 images.
+
+To evaluate PIGEON’s accuracy, the researchers used a separate holdout set of 5,000 unseen GeoGuessr locations. Importantly, they didn’t just rely on offline metrics. They also deployed PIGEON live into GeoGuessr using a custom Chrome extension bot. This allowed for direct comparisons against players across all skill levels including one of the world’s top-ranked professionals. 
 
 | ![Geoguessr Panorama](/images/panoramaGeoguessr.png) |
 |:---:|           
 |Four images comprising a 360-degree panorama from a location in Pegswood, England|
 
-**For PIGEOTTO**, the broader model designed to handle general-purpose geolocation from a single image, the researchers gathered over 4.5 million images from Flickr and Wikipedia (including landmarks from the Google Landmarks v2 dataset). Instead of Street View, these images came from diverse, user-generated content around the world.
+**For PIGEOTTO**, the broader model designed to handle general-purpose geolocation from a single image, the researchers gathered over 4.5 million images from Flickr and Wikipedia (including landmarks from the Google Landmarks v2 dataset and the Flickr images from the MediaEval 2016 dataset). Instead of Street View, these images came from diverse, user-generated content around the world.
 
-<!-- TODO Unsure if should be kept -->
-PIGEOTTO was tested on several standard geolocation benchmarks—including IM2GPS, YFCC4k, and the particularly challenging GWS15k—to see how it would perform on out-of-distribution data. These benchmarks evaluate how many guesses fall within different distance thresholds (like 25 km or 200 km from the correct location) and measure median error in kilometers.
 
-| ![PIGEOTTA images](/images/pigeottoRandom.png) |
+PIGEOTTO was tested on several standard geolocation benchmarks used in the literature including IM2GPS, IM2GPS3k, YFCC4k,  YFCC26k and GWS15k.
+These benchmarks evaluate how many guesses fall within different distance thresholds (like 25 km or 200 km from the correct location) and measure median error in kilometers.
+
+| ![PIGEOTTO images](/images/pigeottoRandom.png) |
 |:---:|           
 |Four samples from the MediaEval 2016 dataset|
 
@@ -195,6 +198,37 @@ To summarize, while PIGEON was built to master the game of GeoGuessr using panor
 
 
 ### Qualitative Analysis
+
+Now that we've covered the the methods and the training data the models were trained on, we want to showcased the capabilities of these models by showing some qualitative results. The qualitative results not only illustrate the models’ reasoning but also highlight the kinds of cues they’ve learned to pick up, often mirroring expert GeoGuessr strategies.
+
+**Interpreting Model Attention for PIGEON**
+The authors generated attention-attribution maps over the CLIP-based backbone to see which parts of a Street View image drive PIGEON’s geolocation predictions.
+
+| ![Attention Attribution Map](/images/attentionAttributionMap.png) |
+|:---:|           
+|Attention attribution map for an image in New Zealand|
+
+ For example, when given a view of a New Zealand countryside, PIGEON’s attention is mainly focused on the following cues:
+- Road markings and signs that are specific to certain coutries like center lines and stop signs.
+- Utility poles that also vary a lot even inside a country giving a big hint on where the image was taken.
+
+This kind of behaviour is very interesting since it mimics that of a Geoguessr professionals who for example also tend to look for utilit poles and street signs since these are things that typically are a really strong indicator on where you are on the globe. And the model does so without explicitly being told to do so underlining the generaliziability and the performance of the model.
+
+**Uncertainty Across Scenes for PIGEON**
+
+Next we want to go about some examples where PIGEON is most uncertain about which geocell to guess.
+
+| ![Dark Panorama ](/images/darkPanorama.png) |
+|:---:|           
+|Example of an image for which PIGEON was most uncertain about.|
+
+In the above image it is to be expected that PIGEON cannot make a reasonable guess since nothing can be really recognized on these images. High Uncertainties in these kind of scenarios with out of distribution sample are bound to happen and acceptable. The next image though is more interesting.
+
+| ![Uncertain Forest](/images/uncertainForestPanorama.png) |
+|:---:|           
+|Example of an image for which PIGEON was most uncertain about.|
+
+Here we can see a road going through a forest with a lot of vegetation. But there aren't any road markings or street signs to be seen. Still there is a lot a vegetation to be seen which can give siginificant cues in which country or region the image was taken. So interestingly enough PIGEON has a hard time guessing the correct geocell in this instance underlining that the model still can improve in these kind of scenarioes. 
 
 PIGEON:
 
@@ -208,6 +242,8 @@ PIGEOTTO:
 
 ### Quantitative Analysis
 - safsaf
+
+[▶️ Watch PIGEON beat a GeoGuessr professional on YouTube](https://www.youtube.com/watch?v=ts5lPDV--cU)
 
 ### Ablations
 
