@@ -192,6 +192,14 @@ These benchmarks evaluate how many guesses fall within different distance thresh
 |:---:|           
 |Four samples from the MediaEval 2016 dataset|
 
+The primary and composite metric used to evaluate the models is the median distance error to the correct location. Just like prior literature on image geolocalization the author evaluate "% @ km" statistic in their analysis for a more fine-grained metric. The "% @ km" statistic determines the percentage of guesses that fall within a given kilometer-based distance from the ground-truth location. This leads to five distance radii:
+
+- 1 km (roughly street-level accuracy)
+- 25 km (city-level)
+- 200 km (region-level)
+- 750 km (country-level)
+- 2500 km (continent-level)
+
 To summarize, while PIGEON was built to master the game of GeoGuessr using panoramic Street View inputs, PIGEOTTO was trained for general image geolocation on a planetary scale. The careful separation of data sources and testing conditions ensured that each model was evaluated fairly in its respective domain.
  
 
@@ -199,51 +207,74 @@ To summarize, while PIGEON was built to master the game of GeoGuessr using panor
 
 ### Qualitative Analysis
 
-Now that we've covered the the methods and the training data the models were trained on, we want to showcased the capabilities of these models by showing some qualitative results. The qualitative results not only illustrate the models’ reasoning but also highlight the kinds of cues they’ve learned to pick up, often mirroring expert GeoGuessr strategies.
+Now that we've covered the architecture and the training data of the models, we showcase the capabilities of these models by presenting some qualitative results. The qualitative results not only illustrate the models’ reasoning but also highlight the kinds of cues they’ve learned to pick up, often mirroring expert GeoGuessr strategies.
 
-**Interpreting Model Attention for PIGEON**
+**Interpreting Model Attention for PIGEON**  
 The authors generated attention-attribution maps over the CLIP-based backbone to see which parts of a Street View image drive PIGEON’s geolocation predictions.
 
 | ![Attention Attribution Map](/images/attentionAttributionMap.png) |
 |:---:|           
 |Attention attribution map for an image in New Zealand|
 
- For example, when given a view of a New Zealand countryside, PIGEON’s attention is mainly focused on the following cues:
-- Road markings and signs that are specific to certain coutries like center lines and stop signs.
-- Utility poles that also vary a lot even inside a country giving a big hint on where the image was taken.
+When given a view of a New Zealand countryside, PIGEON’s attention is mainly focused on the following cues:
+- Road markings and signs specific to certain countries, like center lines and stop signs.  
+- Utility poles, which vary significantly even within a country, giving a strong hint about where the image was taken.
 
-This kind of behaviour is very interesting since it mimics that of a Geoguessr professionals who for example also tend to look for utilit poles and street signs since these are things that typically are a really strong indicator on where you are on the globe. And the model does so without explicitly being told to do so underlining the generaliziability and the performance of the model.
+This kind of behaviour is very interesting since it mimics that of GeoGuessr professionals, who also tend to look for utility poles and street signs which are features that are typically strong indicators of location. The model does so without being explicitly told to do so, underlining its generalizability and performance.
 
 **Uncertainty Across Scenes for PIGEON**
 
-Next we want to go about some examples where PIGEON is most uncertain about which geocell to guess.
+Next, we present some examples where PIGEON is most uncertain about which geocell to guess.
 
-| ![Dark Panorama ](/images/darkPanorama.png) |
+| ![Dark Panorama](/images/darkPanorama.png) |
 |:---:|           
-|Example of an image for which PIGEON was most uncertain about.|
+|Example of an image for which PIGEON was most uncertain.|
 
-In the above image it is to be expected that PIGEON cannot make a reasonable guess since nothing can be really recognized on these images. High Uncertainties in these kind of scenarios with out of distribution sample are bound to happen and acceptable. The next image though is more interesting.
+In the above image, it is expected that PIGEON cannot make a reasonable guess since virtually nothing is recognizable. High uncertainties in these kinds of scenarios with out-of-distribution samples are bound to happen and are acceptable. The next image, however, is more interesting.
 
 | ![Uncertain Forest](/images/uncertainForestPanorama.png) |
 |:---:|           
-|Example of an image for which PIGEON was most uncertain about.|
+|Example of an image for which PIGEON was most uncertain.|
 
-Here we can see a road going through a forest with a lot of vegetation. But there aren't any road markings or street signs to be seen. Still there is a lot a vegetation to be seen which can give siginificant cues in which country or region the image was taken. So interestingly enough PIGEON has a hard time guessing the correct geocell in this instance underlining that the model still can improve in these kind of scenarioes. 
+Here we see a road going through a forest with dense vegetation, but there aren't any road markings or street signs visible. Still, the vegetation itself provides significant cues about the country or region where the image was taken. Interestingly, PIGEON has a hard time guessing the correct geocell in this instance, underlining that the model can still improve in these kinds of scenarios.
 
-PIGEON:
+**Diverse Predictions by PIGEOTTO**
 
-- Present the scores for different metrics and categories
-- Outperforms top human players in GeoGuessr
-- Wins all 6 matches against one of the world’s best GeoGuessr professional
+Having tested PIGEON on some Street View inputs, we now examine PIGEOTTO’s ability to geolocate arbitrary user images. Below are two representative cases:
 
-PIGEOTTO:
-- Present Benchmark results
+| ![Capilano Bridge](/images/bridgePIGEOTTO.png) |
+|:---:|           
+|Sample and guess of the Capilano Suspension Bridge, Canada.|
+
+In this landmark photograph, PIGEOTTO which is trained on landmarks can easily guess where the image was taken. For this guess it might leverage the fact that it might has seen another photograph of this particular landmark it training allowing for an easy guess. As a result, PIGEOTTO makes a guess that is only 3 km off from the true position highlighting the ability of the model to correctly pinpoint landmarks.
+
+| ![Body of Water with Buoy](/images/bodyOfWaterWithBuoy.png) |
+|:---:|           
+|Sample of a floating buoy on the coast of Denmark.|
+
+By contrast, this is a generic image of a buoy floating on a body of water. PIGEOTTO still identifies that the image is taken from or near the sea, but its highest-probability guess lands off the coast of the northeastern United States—over 5500 km from Denmark. This large error underscores how maritime scenes without distinct, place-specific markers remain a significant challenge for geolocation models.
+
+These examples demonstrate PIGEOTTO’s proficiency in leveraging learned visual cues for precise landmark localization, while also exposing its limitations when distinctive, place‐specific features are absent.
+
 
 
 ### Quantitative Analysis
-- safsaf
+
+Now that we've covered the qualitatitve analysis we jump into some numbers. 
+
+**PIGEON**
+ To assess PIGEON's performance the authors evaluated the model on a hold-out data set of 5,000 GeoGuessr locations and conducted blind “duel” experiments against actual human players. On the hold out dataset PIGEON shows a country-level accuracy of 92%, while just having a median distance error of 44.4 km. In addition to this evaluation on the hold-out data set the Authors also put PIGEON to the test by letting it play against actual humans player in 458 multi-round duels. PIGEON played against player in the gold, master and champion divison. Here players in the master-division are more skilled at the game than players in the gold-division. The same goes for the champion-division and master-division players. In the bar chart below it can be seen that PIGEON comfortably beats even players from the champion-divison that consist of the 0.01 % of the top Geoguessr players. It does this by quite a lot since it has half the error of those 0.01 % players. 
+
+ | ![Geoguessr Divisions](/images/geoGuessrDivisionsEval.png) |
+|:---:|           
+|Geolocalization error of PIGEON against human players of various in-game skill levels across 458 multi-round
+matches. The Champion Division consists of the top 0.01% of players. The median error is higher since GeoGuessr round difficulties are adjusted dynamically, increasing with every round.| 
+
+In addition to that we can really recommend watching the following video where the authors put their model to the test against an actual Geoguessr professionals in a live match:
 
 [▶️ Watch PIGEON beat a GeoGuessr professional on YouTube](https://www.youtube.com/watch?v=ts5lPDV--cU)
+
+**PIGEOTTO**
 
 ### Ablations
 
