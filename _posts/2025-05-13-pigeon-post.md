@@ -88,6 +88,7 @@ With these Matrices we are now able to calculate the so called Scaled Dot-Produc
 By multiplying Q with Kᵀ, we get a square matrix (number of tokens × number of tokens) whose rows contain raw attention scores with all other tokens in our sentence. Then, the resulting matrix is scaled by  √dk to avoid extreme values when applying the softmax function. After applying the softmax function, the resulting matrix is multiplied with V, finally giving us the attention output.
 
 Now the actual transformers uses multi-headed attention meaning we have N (number of heads) different weight matrices WQ, WK and WV for each head. That means we also get N different attention outputs Z. In order to combine these into one representation, the different outputs are concatenated and multiplied a final time by another weight matrix to get the final output.
+
 ### Vision Transformer (ViT)
 
 With the rise and success of Transformer architecture in Deep Learning - more specifically in Natural Language Processing (NLP) Tasks -, there are also attempts to translate this success to the field of Computer Vision. 
@@ -276,9 +277,38 @@ In addition to that we can really recommend watching the following video where t
 
 **PIGEOTTO**
 
+After looking at the results from PIGEON, we now turn to PIGEOTTO’s performance on the various benchmark datasets on which the model was evaluated.
+
+| ![PIGEOTTO Benchmark Results](/images/pigeottoBenchmarkResults.png) |
+|:---:|           
+|Comparison of PIGEOTTO’s results against other models on benchmark datasets.|
+
+The first mentioned benchmark is IM2GPS which consists of only 237 primarily landmark images. While PIGEOTTO is worse than the best prior model on a smaller granularities like street-, city- and region-level which might be the case because of the rather small test data set. Still it can improve performance on a country- and continent-level by 2 percent.
+
+On the larger and more diverse IM2GPS3k dataset, PIGEOTTO performs exceptionally well except at the street level, where it underperforms by about 1.5 %. At all other levels, the model significantly outperforms its predecessors, delivering an performance boost of 11.4 % on a country level.
+
+On YFCC4k and YFCC26k, PIGEOTTO achieves state-of-the-art results, with a 12.2 % increase in country-level accuracy on YFCC4k and a +13.6 % increase on YFCC26k. This demonstrates that PIGEOTTO generalizes effectively to unseen locations, excelling not only on smaller benchmarks but also on larger, more diverse datasets.
+
+Finally, on GWS15k considered the toughest benchmark with 15,000 entirely unseen Street View panoramas by the authors. PIGEOTTO cuts the median error from ∼2,500 km down to 415.4 km and maintains street-level accuracy at 0.7 %. More impressively, it boosts city-level by +7.7 %, region-level by +22.5 %, country-level by +38.8 %, and continent-level by +34.6 %, underscoring its true planet-scale generalizability to brand-new places.
+
 ### Ablations
 
-- Explain the impact of different ablations (most impactful ones: synthetic Captions, semantic geocells, four-image Panorama)
+To quantify the contribution of each major component in PIGEON, the authors performed an extensive ablation study, removing one feature at a time and measuring its impact on country-level accuracy, localization errors, and GeoGuessr score. 
+
+| ![Ablations](/images/ablations.png) |
+|:---:|           
+|Cumulative ablation study of the authors' image geolocalization system on a holdout dataset of 5,000 Street View
+locations.|
+
+Removing the four-image panorama input has the most dramatic effect on PIGEON’s performance. Without it, country­-level accuracy plunges by nearly 13 % and the mean localization error roughly triples. This makes sense since three additional images of the surroundings introduce new information to make a better guess.
+Also omitting the haversine-smoothed loss in training leads to a drop of over 2 % on the country-level accuracy. Additionally, the mean and median errors worsen significantly without this novel loss function, likely due to the edge cases discussed in the “Distance-Based Label Smoothing” section.
+Ablating semantic geocells leads to a drop of over 2 % on the country-level and increasing the median error from 55.5 to 60.6 kilometers. This showcases the importance of choosing semantically meaningful cells capturing specific geographical cues like street signs and road markings.
+Adding contrastive CLIP pretraining yields a 1.7 % boost in country-level accuracy, demonstrating the benefit of synthetic captions during training.
+In contrast, disabling hierarchical refinement yields only modest changes (under 0.8 % in accuracy), suggesting that while they contribute useful refinements, they are less central than geocell semantics, panoramic inputs, and distance-aware loss to PIGEON’s state-of-the-art geolocation capabilities.
+
+No ablation studies were conducted for PIGEOTTO.
+
+
 
 ---
 
