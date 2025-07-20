@@ -314,18 +314,37 @@ No ablation studies were conducted for PIGEOTTO.
 
 ## Ethical Considerations
 
-- Privacy risks
-- Military applications
+### Ethical Considerations
+
+### Ethical Considerations
+
+Before outlining specific concerns, it’s important to acknowledge that advances in image geolocalization bring both powerful benefits and potential harms. The following points highlight key ethical issues to address as this technology matures:
+
+- **Dual-Use Risks:** Systems like PIGEON and PIGEOTTO can greatly enhance scientific research, environmental monitoring, and navigation in remote areas by accurately determining locations from images. However, these same capabilities can be repurposed for covert surveillance, unauthorized tracking of individuals or assets, and even military targeting. Without clear oversight and accountability mechanisms, dual-use applications pose a significant risk of abuse.
+
+- **Privacy Threats:** High-precision geolocation models are capable of inferring sensitive personal information, such as daily movement patterns, frequented locations, and demographic attributes like socioeconomic status or language use from seemingly normal photographs. In the absence of strong anonymization safeguards and explicit user consent, individuals and communities may be exposed to unwanted profiling, discrimination, or privacy violations.
+
+- **Controlled Release:** To balance the need for transparency with the imperative to prevent misuse, the authors release the full algorithmic code and comprehensive documentation (including model cards and data statements) while withholding pretrained model weights. This approach supports reproducibility and peer review by the academic community, yet limits the ability to deploy powerful geolocalization models at scale without additional oversight.
+
+These considerations illustrate that as image geolocalization technology advances, robust mechanisms must be in place to guarantee its ethical use.
+
 
 
 ---
 
 ## Conclusion
 
-...
+PIGEON and its extension PIGEOTTO represent a major advance in automated image geolocalization, combining powerful visual embeddings with spatially aware training objectives to achieve state-of-the-art accuracy on both Street View panoramas and arbitrary photographs. Through extensive qualitative and quantitative evaluations, including direct GeoGuessr duels and large-scale benchmark tests, their hybrid classification-and-retrieval framework has proven both robust and generalizable.
+
+That said, PIGEON still encounters scenarios where uncertainty remains high (showcased in the qualitative results section). Future work could address these gaps by refining the model architecture, incorporating more training samples for hard cases. At the same time, it’s essential to uphold transparency, accountability, and ethical governance so that this powerful technology continues to serve the public good.
+
+
+
+
 
 ---
 
 ## References
 
-- to be included
+- TODO 
+- TODO: reference images and enumerate them
