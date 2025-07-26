@@ -111,12 +111,15 @@ With the rise and success of Transformer architecture in Deep Learning - more sp
 
 ### Related Work
 
-The Problem of geolocalization – that is, mapping an image to coordinates that identify where it was taken - has been a challenging area of computer vision ever since. Many factors contribute to making this problem so challenging. Changes in daytime, weather, viewing angle, illumination and many more.
-As the first modern attempt IM2GPS, which uses a retrival based approach utilizing handcrated visual features, can be cosidered (1). This is why an enormous database of reference images would be necessary for a planet scaled geolocations using this solution. In consequence, researchers and authors of later work decided to restrict the geographical socpe and focus on specific cities, like Orlando and Pittsburgh (2), specific countries like the U.S. (3) and even mountainranges (4,5), deserts (6) and beaches (7). 
-Deep learning arrived and shifed the dominant methos in image geolocalization form hand-crafted features towards end-to-end learning (8). The first atempt to applie convolutional neural networks to the problem of geolocalization was introduced by the planet paper by Google in 2016 (9). This work also was the first to cast the problem as a classification task across geocells. 
-With the improvments realized with deep learning, researcheres begun to train CNNs on massive datatsets of mobile images (10) and deploy their models in the game of GeoGuessr against human players (11, 12). 
-The trasformer architecture, is very successful in natural language processing, found its application in computer vision. Pretrained vision transformers (ViT) (13) and multi-modal derivatives such as OpenAI’s CLIP (14) and GPT-4V (15) have successfully been deployed to image geolocalization.
-When framing the geolocation as a classification problem, the question raises: How to partition the world into geographical classes? Previous approaches use eiter plainly rectangular geocells, geocells that are rectangular while respecting the curvature of Earth and beeing roughly balanced in size (16) or effectively arbitrary geocells resulting from combinatorial partitioning (17). One of the main disadvantages of this approach is that no characteristics of the geographic area are captured due to the arbitrary boundaries. The solution proposed in PIGEON tries to utilize geographical characteristics when creating geocells as discussed in the next paragraph.
+The problem of geolocalization—that is, mapping an image to coordinates identifying where it was taken - has long been a challenging area in computer vision. Several factors contribute to this complexity, including variations in daytime, weather conditions, viewing angles, illumination, and more.
+
+An early modern approach was IM2GPS (1), which employed a retrieval-based method using handcrafted visual features. However, this technique required an extensive database of reference images, making it impractical for planet-scale geolocalization tasks. As a result, later researchers narrowed their geographic scope, focusing on specific cities such as Orlando and Pittsburgh (2), entire countries like the U.S. (3), and even specific geographical features like mountain ranges (4,5), deserts (6), and beaches (7).
+
+The rise of deep learning significantly shifted image geolocalization methods from handcrafted features to end-to-end learning (8). Google’s 2016 released "Planet" paper marked the first attempt to apply convolutional neural networks (CNNs) to geolocalization, framing it as a classification problem across geocells (9). Subsequently, researchers leveraged deep learning improvements to train CNNs on large datasets of mobile images (10), even deploying these models in competitive settings against human players in the game GeoGuessr (11,12).
+
+Recently, transformer architectures - originally successful in natural language processing - have found their place in computer vision. Pretrained vision transformers (ViT) (13) and multimodal models like OpenAI’s CLIP (14) and GPT-4V (15) have also been effectively applied to the task of image geolocalization.
+
+When treating geolocation as a classification problem, a crucial question arises: How should the world be partitioned into geographical classes? Previous approaches have used simple rectangular geocells, rectangular cells adjusted for Earth's curvature and balanced size (16), or arbitrarily shaped geocells resulting from combinatorial partitioning (17). However, a significant disadvantage of these methods is their failure to capture meaningful geographic characteristics due to arbitrary boundaries. The PIGEON model addresses this limitation by integrating geographic features directly into the construction of geocells, as discussed in the following section.
 
 
 Quellen des Abschnitts:
@@ -144,12 +147,17 @@ Quellen des Abschnitts:
 - OPTICS clustering and Voronoi tessellation to even out number of samples in each cell
 
 To overcome the limitations of the naive geocell approach, PIGEON introduces Semantic Geocells. Instead of relying on arbitrary rectangular subdivisions, semantic geocells leverage existing administrative and political boundaries. These boundaries naturally align better with geographic divisions that people intuitively recognize.
+
 Creating semantic geocells involves merging neighboring areas within these administrative boundaries until each geocell contains roughly the same number of images. This balancing ensures effective model training. Crucially, semantic geocells always respect country borders, ensuring that predictions remain geographically coherent.
+
 This approach offers significant advantages. Semantic geocells can capture distinctive region-specific details - like unique street signs, road markings, or architectural styles — which are key visual clues for accurate geolocation. They also naturally incorporate meaningful geographic boundaries such as rivers or mountain ranges, creating intuitive geographic classes.
+
 By embedding richer geographic context into the data, semantic geocells ultimately enable PIGEON to make predictions that are both more accurate and realistic.
 
 Despite the advantages provided by semantic geocells, a fundamental issue remains: some regions naturally attract more images, particularly popular landmarks or tourist hotspots. This uneven distribution can create class imbalance, posing challenges for effective model training.
+
 To address this imbalance, the authors propose a targeted clustering strategy using the OPTICS algorithm. OPTICS (18) identifies densely photographed regions, grouping images into meaningful clusters. Each image is then assigned to a specific cluster, which helps balance the number of images per geocell.
+
 Finally, a Voronoi tessellation ensures these adjusted geocells remain spatially continuous and coherent. By creating contiguous geographic areas around each cluster, this method enables PIGEON to better manage densely photographed locations, ultimately improving both the accuracy and reliability of its predictions.
 
 Quellen:
