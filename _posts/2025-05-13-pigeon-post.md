@@ -111,6 +111,33 @@ With the rise and success of Transformer architecture in Deep Learning - more sp
 
 ### Related Work
 
+The Problem of geolocalization – that is, mapping an image to coordinates that identify where it was taken - has been a challenging area of computer vision ever since. Many factors contribute to making this problem so challenging. Changes in daytime, weather, viewing angle, illumination and many more.
+As the first modern attempt IM2GPS, which uses a retrival based approach utilizing handcrated visual features, can be cosidered (1). This is why an enormous database of reference images would be necessary for a planet scaled geolocations using this solution. In consequence, researchers and authors of later work decided to restrict the geographical socpe and focus on specific cities, like Orlando and Pittsburgh (2), specific countries like the U.S. (3) and even mountainranges (4,5), deserts (6) and beaches (7). 
+Deep learning arrived and shifed the dominant methos in image geolocalization form hand-crafted features towards end-to-end learning (8). The first atempt to applie convolutional neural networks to the problem of geolocalization was introduced by the planet paper by Google in 2016 (9). This work also was the first to cast the problem as a classification task across geocells. 
+With the improvments realized with deep learning, researcheres begun to train CNNs on massive datatsets of mobile images (10) and deploy their models in the game of GeoGuessr against human players (11, 12). 
+The trasformer architecture, is very successful in natural language processing, found its application in computer vision. Pretrained vision transformers (ViT) (13) and multi-modal derivatives such as OpenAI’s CLIP (14) and GPT-4V (15) have successfully been deployed to image geolocalization.
+When framing the geolocation as a classification problem, the question raises: How to partition the world into geographical classes? Previous approaches use eiter plainly rectangular geocells, geocells that are rectangular while respecting the curvature of Earth and beeing roughly balanced in size (16) or effectively arbitrary geocells resulting from combinatorial partitioning (17). One of the main disadvantages of this approach is that no characteristics of the geographic area are captured due to the arbitrary boundaries. The solution proposed in PIGEON tries to utilize geographical characteristics when creating geocells as discussed in the next paragraph.
+
+
+Quellen des Abschnitts:
+(1) Quelle: Hays, J. and Efros, A. A. IM2GPS: estimating geographic information from a single image. In Proceedings of the IEEE Conf. on Computer Vision and Pattern Recognition (CVPR), 2008.
+(2) Zamir, A. R. and Shah, M. Image Geo-Localization Based on Multiple Nearest Neighbor Feature Matching Using Generalized Graphs. IEEE Transactions on Pattern Analysis and Machine Intelligence, 36(8):1546–1558, 2014.doi:10.1109/TPAMI.2014.2299799.
+(3) Suresh, S., Chodosh, N., and Abello, M. DeepGeo: Photo Localization with Deep Neural Network, 2018. URL https://arxiv.org/abs/1810.03077.
+(4) Saurer, O., Baatz, G., Köser, K., Ladický, L., and Pollefeys, M. Image Based Geo-localization in the Alps. International Journal of Computer Vision, 116(3):213–225, Feb 2016. ISSN 1573-1405. doi:10.1007/s11263-015-0830-0. URL https://doi.org/10.1007/s11263-015-0830-0.
+(5) Tomešek, J., Cadík, M., and Brejcha, J. CrossLocate: Cross-Modal Large-Scale Visual Geo-Localization in Natural Environments Using Rendered Modalities. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 3174–3183, January 2022.
+(6) Tzeng, E., Zhai, A., Clements, M., Townshend, R., and Zakhor, A. User-Driven Geolocation of Untagged Desert Imagery Using Digital Elevation Models. In 2013 IEEE Conference on Computer Vision and Pattern Recognition Workshops, pp. 237–244, 2013. doi:10.1109/CVPRW.2013.42.
+(7) Cao, L., Smith, J. R., Wen, Z., Yin, Z., Jin, X., and Han, J. BlueFinder: Estimate Where a Beach Photo Was Taken. In Proceedings of the 21st International Conference on World Wide Web, WWW ’12 Companion, pp. 469–470, New York, NY, USA, 2012. Association for Computing Machinery. ISBN 9781450312301. doi:10.1145/2187980.2188081. URL https://doi.org/10.1145/2187980.2188081.
+(8) Masone, C. and Caputo, B. A Survey on Deep Visual Place Recognition. IEEE Access, 9:19516–19547, 2021. doi:10.1109/ACCESS.2021.3054937.
+(9) Weyand, T., Kostrikov, I., and Philbin, J. PlaNet - Photo Geolocation with Convolutional Neural Networks. In European Conference on Computer Vision (ECCV), 2016.
+(10) Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., Andreetto, M., and Adam, H. MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications, 2017. URL https://arxiv.org/abs/ 1704.04861.
+(11) Suresh, S., Chodosh, N., and Abello, M. DeepGeo: Photo Localization with Deep Neural Network, 2018. URL https://arxiv.org/abs/1810.03077.
+(12) Luo, G., Biamby, G., Darrell, T., Fried, D., and Rohrbach, A. Gˆ3: Geolocation via Guidebook Grounding. In Findings of the Association for Computational Linguistics: EMNLP 2022, pp. 5841–5853, Abu Dhabi, United Arab Emirates, December 2022. Association for Computational Linguistics. URL https://aclanthology.org/2022. findings-emnlp.430.
+(13) Kolesnikov, A., Dosovitskiy, A., Weissenborn, D., Heigold, G., Uszkoreit, J., Beyer, L., Minderer, M., Dehghani, M., Houlsby, N., Gelly, S., Unterthiner, T., and Zhai, X. An image is worth 16x16 words: Transformers for image recognition at scale. 2021.
+(14) Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. Learning Transferable Visual Models From Natural Language Supervision, 2021.
+(15) OpenAI. GPT-4V(ision) System Card, September 2023.
+(16) Müller-Budack, E., Pustu-Iren, K., and Ewerth, R. Geolocation Estimation of Photos Using a Hierarchical Model and Scene Classification. In Ferrari, V., Hebert, M., Sminchisescu, C., and Weiss, Y. (eds.), Computer Vision – ECCV 2018, pp. 575–592, Cham, 2018. Springer International Publishing. ISBN 978-3-030-01258-8.
+(17) Seo, P. H., Weyand, T., Sim, J., and Han, B. CPlaNet: Enhancing Image Geolocalization by Combinatorial Partitioning of Maps, 2018.
+
 ### Geocell Division
 
 - Naive vs. semantic Geocell creation
