@@ -143,6 +143,17 @@ Quellen des Abschnitts:
 - Naive vs. semantic Geocell creation
 - OPTICS clustering and Voronoi tessellation to even out number of samples in each cell
 
+To overcome the limitations of the naive geocell approach, PIGEON introduces Semantic Geocells. Instead of relying on arbitrary rectangular subdivisions, semantic geocells leverage existing administrative and political boundaries. These boundaries naturally align better with geographic divisions that people intuitively recognize.
+Creating semantic geocells involves merging neighboring areas within these administrative boundaries until each geocell contains roughly the same number of images. This balancing ensures effective model training. Crucially, semantic geocells always respect country borders, ensuring that predictions remain geographically coherent.
+This approach offers significant advantages. Semantic geocells can capture distinctive region-specific details - like unique street signs, road markings, or architectural styles — which are key visual clues for accurate geolocation. They also naturally incorporate meaningful geographic boundaries such as rivers or mountain ranges, creating intuitive geographic classes.
+By embedding richer geographic context into the data, semantic geocells ultimately enable PIGEON to make predictions that are both more accurate and realistic.
+
+Despite the advantages provided by semantic geocells, a fundamental issue remains: some regions naturally attract more images, particularly popular landmarks or tourist hotspots. This uneven distribution can create class imbalance, posing challenges for effective model training.
+To address this imbalance, the authors propose a targeted clustering strategy using the OPTICS algorithm. OPTICS (18) identifies densely photographed regions, grouping images into meaningful clusters. Each image is then assigned to a specific cluster, which helps balance the number of images per geocell.
+Finally, a Voronoi tessellation ensures these adjusted geocells remain spatially continuous and coherent. By creating contiguous geographic areas around each cluster, this method enables PIGEON to better manage densely photographed locations, ultimately improving both the accuracy and reliability of its predictions.
+
+Quellen:
+(18) Ankerst, M., Breunig, M. M., Kriegel, H.-P., and Sander, J. OPTICS: Ordering Points to Identify the Clustering Structure. In Proceedings of the 1999 ACM SIGMOD International Conference on Management of Data, SIGMOD ’99, pp. 49–60, New York, NY, USA, 1999. Association for Computing Machinery. ISBN 1581130848. doi:10.1145/304182.304187. URL https://doi.org/10.1145/304182.304187.
 
 ### Synthetic Image Captions
 
