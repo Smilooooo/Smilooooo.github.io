@@ -111,13 +111,13 @@ With the rise and success of Transformer architecture in Deep Learning - more sp
 
 ### Related Work
 
-The problem of geolocalization—that is, mapping an image to coordinates identifying where it was taken - has long been a challenging area in computer vision. Several factors contribute to this complexity, including variations in daytime, weather conditions, viewing angles, illumination, and more.
+The problem of geolocalization—that is, mapping an image to coordinates identifying where it was taken—has long been a challenging area in computer vision. Several factors contribute to this complexity, including variations in daytime, weather conditions, viewing angles, illumination, and more.
 
 An early modern approach was IM2GPS (1), which employed a retrieval-based method using handcrafted visual features. However, this technique required an extensive database of reference images, making it impractical for planet-scale geolocalization tasks. As a result, later researchers narrowed their geographic scope, focusing on specific cities such as Orlando and Pittsburgh (2), entire countries like the U.S. (3), and even specific geographical features like mountain ranges (4,5), deserts (6), and beaches (7).
 
 The rise of deep learning significantly shifted image geolocalization methods from handcrafted features to end-to-end learning (8). Google’s 2016 released "Planet" paper marked the first attempt to apply convolutional neural networks (CNNs) to geolocalization, framing it as a classification problem across geocells (9). Subsequently, researchers leveraged deep learning improvements to train CNNs on large datasets of mobile images (10), even deploying these models in competitive settings against human players in the game GeoGuessr (11,12).
 
-Recently, transformer architectures - originally successful in natural language processing - have found their place in computer vision. Pretrained vision transformers (ViT) (13) and multimodal models like OpenAI’s CLIP (14) and GPT-4V (15) have also been effectively applied to the task of image geolocalization.
+Recently, transformer architectures—originally successful in natural language processing—have found their place in computer vision. Pretrained vision transformers (ViT) (13) and multimodal models like OpenAI’s CLIP (14) and GPT-4V (15) have also been effectively applied to the task of image geolocalization.
 
 When treating geolocation as a classification problem, a crucial question arises: How should the world be partitioned into geographical classes? Previous approaches have used simple rectangular geocells, rectangular cells adjusted for Earth's curvature and balanced size (16), or arbitrarily shaped geocells resulting from combinatorial partitioning (17). However, a significant disadvantage of these methods is their failure to capture meaningful geographic characteristics due to arbitrary boundaries. The PIGEON model addresses this limitation by integrating geographic features directly into the construction of geocells, as discussed in the following section.
 
@@ -150,7 +150,7 @@ To overcome the limitations of the naive geocell approach, PIGEON introduces Sem
 
 Creating semantic geocells involves merging neighboring areas within these administrative boundaries until each geocell contains roughly the same number of images. This balancing ensures effective model training. Crucially, semantic geocells always respect country borders, ensuring that predictions remain geographically coherent.
 
-This approach offers significant advantages. Semantic geocells can capture distinctive region-specific details - like unique street signs, road markings, or architectural styles — which are key visual clues for accurate geolocation. They also naturally incorporate meaningful geographic boundaries such as rivers or mountain ranges, creating intuitive geographic classes.
+This approach offers significant advantages. Semantic geocells can capture distinctive region-specific details—like unique street signs, road markings, or architectural styles—which are key visual clues for accurate geolocation. They also naturally incorporate meaningful geographic boundaries such as rivers or mountain ranges, creating intuitive geographic classes.
 
 By embedding richer geographic context into the data, semantic geocells ultimately enable PIGEON to make predictions that are both more accurate and realistic.
 
@@ -168,7 +168,7 @@ Quellen:
 - Added to each image, containing information about the location (e.g., climate, region, season, etc.)
 - CLIP uses these to better generalize the given images
 
-In PIGEON, synthetic image captions play a central role in the multi‑task contrastive pretraining of its vision-language model (CLIP). These captions aren’t human-written but are automatically generated using auxiliary geographic metadata - such as Köppen–Geiger climate zone (19), elevation, season, population density, and even the predominant driving side in a country. These labels are sourced from open geospatial datasets to describe each training image’s location context.
+In PIGEON, synthetic image captions play a central role in the multi‑task contrastive pretraining of its vision-language model (CLIP). These captions aren’t human-written but are automatically generated using auxiliary geographic metadata—such as Köppen–Geiger climate zone (19), elevation, season, population density, and even the predominant driving side in a country. These labels are sourced from open geospatial datasets to describe each training image’s location context.
 
 Each synthetic caption typically includes information about:
 - Climate zone (e.g. “temperate maritime,” “tropical monsoon”)
@@ -179,7 +179,7 @@ These enriched captions are used during CLIP-based pretraining in a multi-task c
 
 This means PIGEON’s CLIP model develops a more robust multimodal embedding space, where images are tightly associated with not only visual features but also their geographic context. The result: stronger generalization to unseen regions, especially when facing environments with limited training data.
 
-(Ablation results in the paper show that including these multi-task synthetic captions reduced PIGEON’s median geolocation error significantly - from about 49 km down to 44 km—demonstrating clear performance gains over pretraining that uses only location labels.)
+(Ablation results in the paper show that including these multi-task synthetic captions reduced PIGEON’s median geolocation error significantly—from about 49 km down to 44 km—demonstrating clear performance gains over pretraining that uses only location labels.)
 
 In short, synthetic captions serve two essential purposes in PIGEON:
 
