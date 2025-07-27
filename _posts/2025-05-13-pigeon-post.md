@@ -140,8 +140,7 @@ To address this imbalance, the authors propose a targeted clustering strategy us
 
 Finally, a Voronoi tessellation ensures these adjusted geocells remain spatially continuous and coherent. By creating contiguous geographic areas around each cluster, this method enables PIGEON to better manage densely photographed locations, ultimately improving both the accuracy and reliability of its predictions.
 
-Quellen:
-(18) Ankerst, M., Breunig, M. M., Kriegel, H.-P., and Sander, J. OPTICS: Ordering Points to Identify the Clustering Structure. In Proceedings of the 1999 ACM SIGMOD International Conference on Management of Data, SIGMOD ’99, pp. 49–60, New York, NY, USA, 1999. Association for Computing Machinery. ISBN 1581130848. doi:10.1145/304182.304187. URL https://doi.org/10.1145/304182.304187.
+
 
 ### Synthetic Image Captions
 
@@ -165,9 +164,6 @@ In short, synthetic captions serve two essential purposes in PIGEON:
 
 They enrich training data with structured geographic context, beyond purely visual patterns.
 They enable CLIP to generalize better across diverse environments, improving prediction accuracy even in sparsely represented locations.
-
-Quellen:
-(19) Beck, H. E., Zimmermann, N. E., McVicar, T. R., Vergopolan, N., Berg, A., and Wood, E. F. Present and future Köppen-Geiger climate classification maps at 1-km resolution. Scientific Data, 5(1):180214, Oct 2018. ISSN 2052-4463. doi:10.1038/sdata.2018.214. URL https://doi.org/10.1038/sdata.2018.214.
 
 
 ### Distance-Based Label Smoothing
@@ -412,3 +408,4 @@ That said, PIGEON still encounters scenarios where uncertainty remains high (sho
 17. Seo, P. H., Weyand, T., Sim, J., and Han, B. CPlaNet: Enhancing Image Geolocalization by Combinatorial Partitioning of Maps, 2018.
 18. Haas, L., Skreta, M., Alberti, S., and Finn, C., 2024, [PIGEON: Predicting Image Geolocations](https://doi.org/10.48550/arXiv.2307.05845). Accepted at CVPR 2024. arXiv:2307.05845 [cs.CV].
 19. Ankerst, M., Breunig, M. M., Kriegel, H.-P., and Sander, J. OPTICS: Ordering Points to Identify the Clustering Structure. In Proceedings of the 1999 ACM SIGMOD International Conference on Management of Data, SIGMOD ’99, pp. 49–60, New York, NY, USA, 1999. Association for Computing Machinery. ISBN 1581130848. doi:10.1145/304182.304187. URL https://doi.org/10.1145/304182.304187.
+20. Beck, H. E., Zimmermann, N. E., McVicar, T. R., Vergopolan, N., Berg, A., and Wood, E. F. Present and future Köppen-Geiger climate classification maps at 1-km resolution. Scientific Data, 5(1):180214, Oct 2018. ISSN 2052-4463. doi:10.1038/sdata.2018.214. URL https://doi.org/10.1038/sdata.2018.214.
