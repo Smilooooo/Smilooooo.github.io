@@ -168,6 +168,28 @@ Quellen:
 - Added to each image, containing information about the location (e.g., climate, region, season, etc.)
 - CLIP uses these to better generalize the given images
 
+In PIGEON, synthetic image captions play a central role in the multi‑task contrastive pretraining of its vision-language model (CLIP). These captions aren’t human-written but are automatically generated using auxiliary geographic metadata—such as Köppen–Geiger climate zone (19), elevation, season, population density, and even the predominant driving side in a country. These labels are sourced from open geospatial datasets to describe each training image’s location context.
+
+Each synthetic caption typically includes information about:
+- Climate zone (e.g. “temperate maritime,” “tropical monsoon”)
+- Region type (e.g. urban, mountainous, coastal)
+- Season, when available
+- Population density or elevation cues, and even roadside driving orientation
+These enriched captions are used during CLIP-based pretraining in a multi-task contrastive framework: CLIP learns to align images not just with geocell labels, but also with these auxiliary textual descriptions.
+
+This means PIGEON’s CLIP model develops a more robust multimodal embedding space, where images are tightly associated with not only visual features but also their geographic context. The result: stronger generalization to unseen regions, especially when facing environments with limited training data.
+
+(Ablation results in the paper show that including these multi-task synthetic captions reduced PIGEON’s median geolocation error significantly—from about 49 km down to 44 km—demonstrating clear performance gains over pretraining that uses only location labels.)
+
+In short, synthetic captions serve two essential purposes in PIGEON:
+
+They enrich training data with structured geographic context, beyond purely visual patterns.
+They enable CLIP to generalize better across diverse environments, improving prediction accuracy even in sparsely represented locations.
+
+Quellen:
+(19) Beck, H. E., Zimmermann, N. E., McVicar, T. R., Vergopolan, N., Berg, A., and Wood, E. F. Present and future Köppen-Geiger climate classification maps at 1-km resolution. Scientific Data, 5(1):180214, Oct 2018. ISSN 2052-4463. doi:10.1038/sdata.2018.214. URL https://doi.org/10.1038/sdata.2018.214.
+
+
 ### Distance-Based Label Smoothing
 
 One of PIGEON’s main contributions is joining the discrete nature of geocell classification with the continuous structure of the Earth’s surface. Traditional approaches treat each geocell as an independent class, penalizing all mistakes equally even when two cells lie side by side and the true location lies in between the two cells. In reality, misclassifying neighboring regions is far less severe than misclassifying two distant continents. To address this problem, PIGEON introduces a novel Haversine-smoothed loss that explicitly models spatial relations between geocells.
