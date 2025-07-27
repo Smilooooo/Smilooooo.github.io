@@ -10,7 +10,7 @@ classes: wide
 
 ## Motivation
 
-GeoGuessr, a popular online game with a dedicated community, challenges players to identify locations from images provided by Google Street View, demonstrating the difficulty of accurately guessing image locations. Advances in artificial intelligence (AI), particularly in multimodal and visual AI technologies, have created opportunities to automate and enhance this task significantly. Inspired by this concept, the introduction of the PIGEON model—"Predicting Image Geolocations"—leverages advanced visual embeddings from CLIP-ViT to significantly improve accuracy in automated image geolocation. <br>
+GeoGuessr, a popular online game with a dedicated community, challenges players to identify locations from images provided by Google Street View, demonstrating the difficulty of accurately guessing image locations. Advances in artificial intelligence (AI), particularly in multimodal and visual AI technologies, have created opportunities to automate and enhance this task significantly. Inspired by this concept, the introduction of the PIGEON model "Predicting Image Geolocations" leverages advanced visual embeddings from CLIP-ViT to significantly improve accuracy in automated image geolocation. <br>
 
 This blog post aims to provide a comprehensive overview of the key ideas behind PIGEON, place it within the broader context of multimodal AI research, and explore practical applications and ethical considerations of this technology. As we will later showcase, this approach can even outperform GeoGuessr professionals in pinpointing geolocations on the map based on Street View images.
 Join us as we explore the capabilities of PIGEON!
@@ -413,6 +413,21 @@ That said, PIGEON still encounters scenarios where uncertainty remains high (sho
 ---
 
 ## References
-
-- TODO 
-- TODO: reference images and enumerate them
+1. Hays, J. and Efros, A. A. IM2GPS: estimating geographic information from a single image. In Proceedings of the IEEE Conf. on Computer Vision and Pattern Recognition (CVPR), 2008.
+2. Zamir, A. R. and Shah, M. Image Geo-Localization Based on Multiple Nearest Neighbor Feature Matching Using Generalized Graphs. IEEE Transactions on Pattern Analysis and Machine Intelligence, 36(8):1546–1558, 2014.doi:10.1109/TPAMI.2014.2299799.
+3. Suresh, S., Chodosh, N., and Abello, M. DeepGeo: Photo Localization with Deep Neural Network, 2018. URL https://arxiv.org/abs/1810.03077.
+4. Saurer, O., Baatz, G., Köser, K., Ladický, L., and Pollefeys, M. Image Based Geo-localization in the Alps. International Journal of Computer Vision, 116(3):213–225, Feb 2016. ISSN 1573-1405. doi:10.1007/s11263-015-0830-0. URL https://doi.org/10.1007/s11263-015-0830-0.
+5. Tomešek, J., Cadík, M., and Brejcha, J. CrossLocate: Cross-Modal Large-Scale Visual Geo-Localization in Natural Environments Using Rendered Modalities. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 3174–3183, January 2022.
+6. Tzeng, E., Zhai, A., Clements, M., Townshend, R., and Zakhor, A. User-Driven Geolocation of Untagged Desert Imagery Using Digital Elevation Models. In 2013 IEEE Conference on Computer Vision and Pattern Recognition Workshops, pp. 237–244, 2013. doi:10.1109/CVPRW.2013.42.
+7. Cao, L., Smith, J. R., Wen, Z., Yin, Z., Jin, X., and Han, J. BlueFinder: Estimate Where a Beach Photo Was Taken. In Proceedings of the 21st International Conference on World Wide Web, WWW ’12 Companion, pp. 469–470, New York, NY, USA, 2012. Association for Computing Machinery. ISBN 9781450312301. doi:10.1145/2187980.2188081. URL https://doi.org/10.1145/2187980.2188081.
+8. Masone, C. and Caputo, B. A Survey on Deep Visual Place Recognition. IEEE Access, 9:19516–19547, 2021. doi:10.1109/ACCESS.2021.3054937.
+9. Weyand, T., Kostrikov, I., and Philbin, J. PlaNet - Photo Geolocation with Convolutional Neural Networks. In European Conference on Computer Vision (ECCV), 2016.
+10. Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., Andreetto, M., and Adam, H. MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications, 2017. URL https://arxiv.org/abs/ 1704.04861.
+11. Suresh, S., Chodosh, N., and Abello, M. DeepGeo: Photo Localization with Deep Neural Network, 2018. URL https://arxiv.org/abs/1810.03077.
+12. Luo, G., Biamby, G., Darrell, T., Fried, D., and Rohrbach, A. Gˆ3: Geolocation via Guidebook Grounding. In Findings of the Association for Computational Linguistics: EMNLP 2022, pp. 5841–5853, Abu Dhabi, United Arab Emirates, December 2022. Association for Computational Linguistics. URL https://aclanthology.org/2022. findings-emnlp.430.
+13. Kolesnikov, A., Dosovitskiy, A., Weissenborn, D., Heigold, G., Uszkoreit, J., Beyer, L., Minderer, M., Dehghani, M., Houlsby, N., Gelly, S., Unterthiner, T., and Zhai, X. An image is worth 16x16 words: Transformers for image recognition at scale. 2021.
+14. Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. Learning Transferable Visual Models From Natural Language Supervision, 2021.
+15. OpenAI. GPT-4V(ision) System Card, September 2023.
+16. Müller-Budack, E., Pustu-Iren, K., and Ewerth, R. Geolocation Estimation of Photos Using a Hierarchical Model and Scene Classification. In Ferrari, V., Hebert, M., Sminchisescu, C., and Weiss, Y. (eds.), Computer Vision – ECCV 2018, pp. 575–592, Cham, 2018. Springer International Publishing. ISBN 978-3-030-01258-8.
+17. Seo, P. H., Weyand, T., Sim, J., and Han, B. CPlaNet: Enhancing Image Geolocalization by Combinatorial Partitioning of Maps, 2018.
+18. Haas, L., Skreta, M., Alberti, S., and Finn, C., 2024, [PIGEON: Predicting Image Geolocations](https://doi.org/10.48550/arXiv.2307.05845). Accepted at CVPR 2024. arXiv:2307.05845 [cs.CV].
