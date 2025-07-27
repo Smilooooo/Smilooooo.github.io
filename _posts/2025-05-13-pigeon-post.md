@@ -111,16 +111,84 @@ With the rise and success of Transformer architecture in Deep Learning - more sp
 
 ### Related Work
 
+The problem of geolocalization—that is, mapping an image to coordinates identifying where it was taken—has long been a challenging area in computer vision. Several factors contribute to this complexity, including variations in daytime, weather conditions, viewing angles, illumination, and more.
+
+An early modern approach was IM2GPS (1), which employed a retrieval-based method using handcrafted visual features. However, this technique required an extensive database of reference images, making it impractical for planet-scale geolocalization tasks. As a result, later researchers narrowed their geographic scope, focusing on specific cities such as Orlando and Pittsburgh (2), entire countries like the U.S. (3), and even specific geographical features like mountain ranges (4,5), deserts (6), and beaches (7).
+
+The rise of deep learning significantly shifted image geolocalization methods from handcrafted features to end-to-end learning (8). Google’s 2016 released "Planet" paper marked the first attempt to apply convolutional neural networks (CNNs) to geolocalization, framing it as a classification problem across geocells (9). Subsequently, researchers leveraged deep learning improvements to train CNNs on large datasets of mobile images (10), even deploying these models in competitive settings against human players in the game GeoGuessr (11,12).
+
+Recently, transformer architectures—originally successful in natural language processing—have found their place in computer vision. Pretrained vision transformers (ViT) (13) and multimodal models like OpenAI’s CLIP (14) and GPT-4V (15) have also been effectively applied to the task of image geolocalization.
+
+When treating geolocation as a classification problem, a crucial question arises: How should the world be partitioned into geographical classes? Previous approaches have used simple rectangular geocells, rectangular cells adjusted for Earth's curvature and balanced size (16), or arbitrarily shaped geocells resulting from combinatorial partitioning (17). However, a significant disadvantage of these methods is their failure to capture meaningful geographic characteristics due to arbitrary boundaries. The PIGEON model addresses this limitation by integrating geographic features directly into the construction of geocells, as discussed in the following section.
+
+
+Quellen des Abschnitts:
+(1) Quelle: Hays, J. and Efros, A. A. IM2GPS: estimating geographic information from a single image. In Proceedings of the IEEE Conf. on Computer Vision and Pattern Recognition (CVPR), 2008.
+(2) Zamir, A. R. and Shah, M. Image Geo-Localization Based on Multiple Nearest Neighbor Feature Matching Using Generalized Graphs. IEEE Transactions on Pattern Analysis and Machine Intelligence, 36(8):1546–1558, 2014.doi:10.1109/TPAMI.2014.2299799.
+(3) Suresh, S., Chodosh, N., and Abello, M. DeepGeo: Photo Localization with Deep Neural Network, 2018. URL https://arxiv.org/abs/1810.03077.
+(4) Saurer, O., Baatz, G., Köser, K., Ladický, L., and Pollefeys, M. Image Based Geo-localization in the Alps. International Journal of Computer Vision, 116(3):213–225, Feb 2016. ISSN 1573-1405. doi:10.1007/s11263-015-0830-0. URL https://doi.org/10.1007/s11263-015-0830-0.
+(5) Tomešek, J., Cadík, M., and Brejcha, J. CrossLocate: Cross-Modal Large-Scale Visual Geo-Localization in Natural Environments Using Rendered Modalities. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 3174–3183, January 2022.
+(6) Tzeng, E., Zhai, A., Clements, M., Townshend, R., and Zakhor, A. User-Driven Geolocation of Untagged Desert Imagery Using Digital Elevation Models. In 2013 IEEE Conference on Computer Vision and Pattern Recognition Workshops, pp. 237–244, 2013. doi:10.1109/CVPRW.2013.42.
+(7) Cao, L., Smith, J. R., Wen, Z., Yin, Z., Jin, X., and Han, J. BlueFinder: Estimate Where a Beach Photo Was Taken. In Proceedings of the 21st International Conference on World Wide Web, WWW ’12 Companion, pp. 469–470, New York, NY, USA, 2012. Association for Computing Machinery. ISBN 9781450312301. doi:10.1145/2187980.2188081. URL https://doi.org/10.1145/2187980.2188081.
+(8) Masone, C. and Caputo, B. A Survey on Deep Visual Place Recognition. IEEE Access, 9:19516–19547, 2021. doi:10.1109/ACCESS.2021.3054937.
+(9) Weyand, T., Kostrikov, I., and Philbin, J. PlaNet - Photo Geolocation with Convolutional Neural Networks. In European Conference on Computer Vision (ECCV), 2016.
+(10) Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., Andreetto, M., and Adam, H. MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications, 2017. URL https://arxiv.org/abs/ 1704.04861.
+(11) Suresh, S., Chodosh, N., and Abello, M. DeepGeo: Photo Localization with Deep Neural Network, 2018. URL https://arxiv.org/abs/1810.03077.
+(12) Luo, G., Biamby, G., Darrell, T., Fried, D., and Rohrbach, A. Gˆ3: Geolocation via Guidebook Grounding. In Findings of the Association for Computational Linguistics: EMNLP 2022, pp. 5841–5853, Abu Dhabi, United Arab Emirates, December 2022. Association for Computational Linguistics. URL https://aclanthology.org/2022. findings-emnlp.430.
+(13) Kolesnikov, A., Dosovitskiy, A., Weissenborn, D., Heigold, G., Uszkoreit, J., Beyer, L., Minderer, M., Dehghani, M., Houlsby, N., Gelly, S., Unterthiner, T., and Zhai, X. An image is worth 16x16 words: Transformers for image recognition at scale. 2021.
+(14) Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. Learning Transferable Visual Models From Natural Language Supervision, 2021.
+(15) OpenAI. GPT-4V(ision) System Card, September 2023.
+(16) Müller-Budack, E., Pustu-Iren, K., and Ewerth, R. Geolocation Estimation of Photos Using a Hierarchical Model and Scene Classification. In Ferrari, V., Hebert, M., Sminchisescu, C., and Weiss, Y. (eds.), Computer Vision – ECCV 2018, pp. 575–592, Cham, 2018. Springer International Publishing. ISBN 978-3-030-01258-8.
+(17) Seo, P. H., Weyand, T., Sim, J., and Han, B. CPlaNet: Enhancing Image Geolocalization by Combinatorial Partitioning of Maps, 2018.
+
 ### Geocell Division
 
 - Naive vs. semantic Geocell creation
 - OPTICS clustering and Voronoi tessellation to even out number of samples in each cell
 
+To overcome the limitations of the naive geocell approach, PIGEON introduces Semantic Geocells. Instead of relying on arbitrary rectangular subdivisions, semantic geocells leverage existing administrative and political boundaries. These boundaries naturally align better with geographic divisions that people intuitively recognize.
+
+Creating semantic geocells involves merging neighboring areas within these administrative boundaries until each geocell contains roughly the same number of images. This balancing ensures effective model training. Crucially, semantic geocells always respect country borders, ensuring that predictions remain geographically coherent.
+
+This approach offers significant advantages. Semantic geocells can capture distinctive region-specific details—like unique street signs, road markings, or architectural styles—which are key visual clues for accurate geolocation. They also naturally incorporate meaningful geographic boundaries such as rivers or mountain ranges, creating intuitive geographic classes.
+
+By embedding richer geographic context into the data, semantic geocells ultimately enable PIGEON to make predictions that are both more accurate and realistic.
+
+Despite the advantages provided by semantic geocells, a fundamental issue remains: some regions naturally attract more images, particularly popular landmarks or tourist hotspots. This uneven distribution can create class imbalance, posing challenges for effective model training.
+
+To address this imbalance, the authors propose a targeted clustering strategy using the OPTICS algorithm. OPTICS (18) identifies densely photographed regions, grouping images into meaningful clusters. Each image is then assigned to a specific cluster, which helps balance the number of images per geocell.
+
+Finally, a Voronoi tessellation ensures these adjusted geocells remain spatially continuous and coherent. By creating contiguous geographic areas around each cluster, this method enables PIGEON to better manage densely photographed locations, ultimately improving both the accuracy and reliability of its predictions.
+
+Quellen:
+(18) Ankerst, M., Breunig, M. M., Kriegel, H.-P., and Sander, J. OPTICS: Ordering Points to Identify the Clustering Structure. In Proceedings of the 1999 ACM SIGMOD International Conference on Management of Data, SIGMOD ’99, pp. 49–60, New York, NY, USA, 1999. Association for Computing Machinery. ISBN 1581130848. doi:10.1145/304182.304187. URL https://doi.org/10.1145/304182.304187.
 
 ### Synthetic Image Captions
 
 - Added to each image, containing information about the location (e.g., climate, region, season, etc.)
 - CLIP uses these to better generalize the given images
+
+In PIGEON, synthetic image captions play a central role in the multi‑task contrastive pretraining of its vision-language model (CLIP). These captions aren’t human-written but are automatically generated using auxiliary geographic metadata—such as Köppen–Geiger climate zone (19), elevation, season, population density, and even the predominant driving side in a country. These labels are sourced from open geospatial datasets to describe each training image’s location context.
+
+Each synthetic caption typically includes information about:
+- Climate zone (e.g. “temperate maritime,” “tropical monsoon”)
+- Region type (e.g. urban, mountainous, coastal)
+- Season, when available
+- Population density or elevation cues, and even roadside driving orientation
+These enriched captions are used during CLIP-based pretraining in a multi-task contrastive framework: CLIP learns to align images not just with geocell labels, but also with these auxiliary textual descriptions.
+
+This means PIGEON’s CLIP model develops a more robust multimodal embedding space, where images are tightly associated with not only visual features but also their geographic context. The result: stronger generalization to unseen regions, especially when facing environments with limited training data.
+
+(Ablation results in the paper show that including these multi-task synthetic captions reduced PIGEON’s median geolocation error significantly—from about 49 km down to 44 km—demonstrating clear performance gains over pretraining that uses only location labels.)
+
+In short, synthetic captions serve two essential purposes in PIGEON:
+
+They enrich training data with structured geographic context, beyond purely visual patterns.
+They enable CLIP to generalize better across diverse environments, improving prediction accuracy even in sparsely represented locations.
+
+Quellen:
+(19) Beck, H. E., Zimmermann, N. E., McVicar, T. R., Vergopolan, N., Berg, A., and Wood, E. F. Present and future Köppen-Geiger climate classification maps at 1-km resolution. Scientific Data, 5(1):180214, Oct 2018. ISSN 2052-4463. doi:10.1038/sdata.2018.214. URL https://doi.org/10.1038/sdata.2018.214.
+
 
 ### Distance-Based Label Smoothing
 
