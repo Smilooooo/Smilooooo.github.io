@@ -147,7 +147,7 @@ Finally, a Voronoi tessellation ensures these adjusted geocells remain spatially
 - Added to each image, containing information about the location (e.g., climate, region, season, etc.)
 - CLIP uses these to better generalize the given images
 
-In PIGEON, synthetic image captions play a central role in the multi‑task contrastive pretraining of its vision-language model (CLIP). These captions aren’t human-written but are automatically generated using auxiliary geographic metadata—such as Köppen–Geiger climate zone (19), elevation, season, population density, and even the predominant driving side in a country. These labels are sourced from open geospatial datasets to describe each training image’s location context.
+In PIGEON, synthetic image captions play a central role in the multi‑task contrastive pretraining of its vision-language model (CLIP). These captions aren’t human-written but are automatically generated using auxiliary geographic metadata—such as Köppen–Geiger climate zone, elevation, season, population density, and even the predominant driving side in a country. These labels are sourced from open geospatial datasets to describe each training image’s location context.
 
 Each synthetic caption typically includes information about:
 - Climate zone (e.g. “temperate maritime,” “tropical monsoon”)
@@ -157,8 +157,6 @@ Each synthetic caption typically includes information about:
 These enriched captions are used during CLIP-based pretraining in a multi-task contrastive framework: CLIP learns to align images not just with geocell labels, but also with these auxiliary textual descriptions.
 
 This means PIGEON’s CLIP model develops a more robust multimodal embedding space, where images are tightly associated with not only visual features but also their geographic context. The result: stronger generalization to unseen regions, especially when facing environments with limited training data.
-
-(Ablation results in the paper show that including these multi-task synthetic captions reduced PIGEON’s median geolocation error significantly—from about 49 km down to 44 km—demonstrating clear performance gains over pretraining that uses only location labels.)
 
 In short, synthetic captions serve two essential purposes in PIGEON:
 
