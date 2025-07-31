@@ -109,7 +109,7 @@ $$
 
 with $$ \mathrm{Hav}(\cdot,\cdot) $$ measuring kilometers along Earth’s surface and $$\tau$$ a temperature hyperparameter controlling smoothing sharpness. Geocells whose centers lie closer to the ground truth receive higher weights, naturally biasing the model toward geographically plausible neighbors.
 
-Training then minimizes a cross-entropy–style loss against these smoothed targets:
+Training then minimizes a cross-entropy-style loss against these smoothed targets:
 
 $$
 L_n = - \sum_i y_{n,i}\,\log p_{n,i},
