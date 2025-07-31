@@ -23,13 +23,13 @@ Join us as we explore the capabilities of PIGEON!
    - [Synthetic Image Captions](#synthetic-image-captions)    
    - [Distance-Based Label Smoothing](#distance-based-label-smoothing)
    - [Hierarchical Retrieval-Based Refinement](#hierarchical-retrieval-based-refinement)  
-3. [Experiments](#experiments)  
+2. [Experiments](#experiments)  
    - [Experimental Setting](#experimental-setting)  
    - [Qualitative Analysis](#qualitative-analysis)
    - [Quantative Analysis](#quantitative-analysis)  
    - [Ablations](#ablations)  
-4. [Ethical Considerations](#ethical-considerations)  
-5. [Conclusion](#conclusion)
+3. [Ethical Considerations](#ethical-considerations)  
+4. [Conclusion](#conclusion)
 
 
 ---
