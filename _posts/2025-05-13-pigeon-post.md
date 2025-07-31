@@ -16,6 +16,8 @@ This blog post aims to provide a comprehensive overview of the key ideas behind 
 Join us as we explore the capabilities of PIGEON!
 
 
+![](/images/geoguessr-clip.gif)\
+
 ## Table of Contents  
 1. [PIGEON/PIGEOTTO](#pigeon)
    - [Related Work](#related-work)
