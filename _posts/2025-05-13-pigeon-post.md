@@ -17,7 +17,9 @@ This blog post aims to provide a comprehensive overview of the key ideas behind 
 Join us as we explore the capabilities of PIGEON!
 
 
-![](/images/geoguessr-clip.gif)\
+|![](/images/geoguessr-clip.gif)|
+|:---:|           
+|One round of the online game GeoGuessr in singleplayer-mode. |
 
 ## Table of Contents  
 1. [PIGEON/PIGEOTTO](#pigeon)
