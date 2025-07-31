@@ -244,8 +244,7 @@ Now that we've covered the qualitatitve analysis we jump into some numbers.
 
  | ![Geoguessr Divisions](/images/geoGuessrDivisionsEval.png) |
 |:---:|           
-|Figure 10: Geolocalization error of PIGEON against human players of various in-game skill levels across 458 multi-round
-matches. The Champion Division consists of the top 0.01% of players. The median error is higher since GeoGuessr round difficulties are adjusted dynamically, increasing with every round.| 
+|Figure 10: Geolocalization error of PIGEON against human players of various in-game skill levels across 458 multi-round matches. The Champion Division consists of the top 0.01% of players. The median error is higher since GeoGuessr round difficulties are adjusted dynamically, increasing with every round.| 
 
 In addition to that we can really recommend watching the following video where the authors put their model to the test against an actual Geoguessr professionals in a live match:
 
