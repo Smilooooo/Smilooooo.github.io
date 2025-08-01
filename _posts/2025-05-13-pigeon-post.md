@@ -170,10 +170,10 @@ To evaluate PIGEON’s accuracy, the researchers used a separate holdout set of 
 |:---:|           
 |Figure 3: Four images comprising a 360-degree panorama from a location in Pegswood, England|
 
-**For PIGEOTTO**, the broader model designed to handle general-purpose geolocation from a single image, the researchers gathered over 4.5 million images from Flickr and Wikipedia (including landmarks from the Google Landmarks v2 dataset and the Flickr images from the MediaEval 2016 dataset). Instead of Street View, these images came from diverse, user-generated content around the world.
+**For PIGEOTTO**, the broader model designed to handle general-purpose geolocation from a single image, the researchers gathered over 4.5 million images from Flickr and Wikipedia (including Flickr images from the MediaEval 2016 dataset [<a href="#ref9">9</a>]). Instead of Street View, these images came from diverse, user-generated content around the world.
 
 
-PIGEOTTO was tested on several standard geolocation benchmarks used in the literature including IM2GPS, IM2GPS3k, YFCC4k,  YFCC26k and GWS15k.
+PIGEOTTO was tested on several standard geolocation benchmarks used in the literature including IM2GPS [<a href="#ref6">6</a>], IM2GPS3k [<a href="#ref20">20</a>], YFCC4k [<a href="#ref20">20</a>],  YFCC26k [<a href="#ref12">12</a>] and GWS15k [<a href="#ref4">4</a>].
 These benchmarks evaluate how many guesses fall within different distance thresholds (like 25 km or 200 km from the correct location) and measure median error in kilometers.
 
 | ![PIGEOTTO images](/images/pigeottoRandom.png) |
@@ -269,13 +269,13 @@ After looking at the results from PIGEON, we now turn to PIGEOTTO’s performanc
 |:---:|           
 |Figure 11: Comparison of PIGEOTTO’s results against other models on benchmark datasets.|
 
-The first mentioned benchmark is IM2GPS which consists of only 237 primarily landmark images. While PIGEOTTO is worse than the best prior model on a smaller granularities like street-, city- and region-level which might be the case because of the rather small test data set. Still it can improve performance on a country- and continent-level by 2 percent.
+The first mentioned benchmark is IM2GPS [<a href="#ref6">6</a>] which consists of only 237 primarily landmark images. While PIGEOTTO is worse than the best prior model on a smaller granularities like street-, city- and region-level which might be the case because of the rather small test data set. Still it can improve performance on a country- and continent-level by 2 percent.
 
-On the larger and more diverse IM2GPS3k dataset, PIGEOTTO performs exceptionally well except at the street level, where it underperforms by about 1.5 %. At all other levels, the model significantly outperforms its predecessors, delivering an performance boost of 11.4 % on a country level.
+On the larger and more diverse IM2GPS3k [<a href="#ref20">20</a>] dataset, PIGEOTTO performs exceptionally well except at the street level, where it underperforms by about 1.5 %. At all other levels, the model significantly outperforms its predecessors, delivering an performance boost of 11.4 % on a country level.
 
-On YFCC4k and YFCC26k, PIGEOTTO achieves state-of-the-art results, with a 12.2 % increase in country-level accuracy on YFCC4k and a +13.6 % increase on YFCC26k. This demonstrates that PIGEOTTO generalizes effectively to unseen locations, excelling not only on smaller benchmarks but also on larger, more diverse datasets.
+On YFCC4k [<a href="#ref20">20</a>] and YFCC26k [<a href="#ref12">12</a>], PIGEOTTO achieves state-of-the-art results, with a 12.2 % increase in country-level accuracy on YFCC4k and a +13.6 % increase on YFCC26k. This demonstrates that PIGEOTTO generalizes effectively to unseen locations, excelling not only on smaller benchmarks but also on larger, more diverse datasets.
 
-Finally, on GWS15k considered the toughest benchmark with 15,000 entirely unseen Street View panoramas by the authors. PIGEOTTO cuts the median error from ∼2,500 km down to 415.4 km and maintains street-level accuracy at 0.7 %. More impressively, it boosts city-level by +7.7 %, region-level by +22.5 %, country-level by +38.8 %, and continent-level by +34.6 %, underscoring its true planet-scale generalizability to brand-new places.
+Finally, on GWS15k [<a href="#ref4">4</a>] considered the toughest benchmark with 15,000 entirely unseen Street View panoramas by the authors. PIGEOTTO cuts the median error from ∼2,500 km down to 415.4 km and maintains street-level accuracy at 0.7 %. More impressively, it boosts city-level by +7.7 %, region-level by +22.5 %, country-level by +38.8 %, and continent-level by +34.6 %, underscoring its true planet-scale generalizability to brand-new places.
 
 ### Ablations
 
@@ -318,8 +318,6 @@ These considerations illustrate that as image geolocalization technology advance
 PIGEON and its extension PIGEOTTO represent a major advance in automated image geolocalization, combining powerful visual embeddings with spatially aware training objectives to achieve state-of-the-art accuracy on both Street View panoramas and arbitrary photographs. Through extensive qualitative and quantitative evaluations, including direct GeoGuessr duels and large-scale benchmark tests, their hybrid classification-and-retrieval framework has proven both robust and generalizable.
 
 That said, PIGEON still encounters scenarios where uncertainty remains high (showcased in the qualitative results section). Future work could address these gaps by refining the model architecture, incorporating more training samples for hard cases. At the same time, it’s essential to uphold transparency, accountability, and ethical governance so that this powerful technology continues to serve the public good.
-
-
 
 
 
