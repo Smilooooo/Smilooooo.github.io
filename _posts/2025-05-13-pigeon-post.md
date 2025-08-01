@@ -120,13 +120,13 @@ $$
 
 with $$ \mathrm{Hav}(\cdot,\cdot) $$ measuring kilometers along Earth’s surface and $$\tau$$ a temperature hyperparameter controlling smoothing sharpness. Geocells whose centers lie closer to the ground truth receive higher weights, naturally biasing the model toward geographically plausible neighbors.
 
-Training then minimizes a cross-entropy–style loss against these smoothed targets:
+Training then minimizes a cross-entropy-style loss against these smoothed targets:
 
 $$
 L_n = - \sum_i y_{n,i}\,\log p_{n,i},
 $$
 
-where $$p_{n,i}$$ is the model’s predicted probability for cell $i$. This distance-aware objective not only penalizes large mistakes more heavily but also enables PIGEON to learn an implicit multi-scale hierarchy, first pinpointing coarse regions before zooming in on finer distinctions. Picking up the example used at the start of this section, PIGEON now assigns similar target variables to both cells since the distance from the true location to the center of the true geocells is the same as the distance between the true location and the center of the neighboring cell. This ultimately introduces spatial relations between the cells.
+where $$p_{n,i}$$ is the model’s predicted probability for cell i. This distance-aware objective not only penalizes large mistakes more heavily but also enables PIGEON to learn an implicit multi-scale hierarchy, first pinpointing coarse regions before zooming in on finer distinctions. Picking up the example used at the start of this section, PIGEON now assigns similar target variables to both cells since the distance from the true location to the center of the true geocells is the same as the distance between the true location and the center of the neighboring cell. This ultimately introduces spatial relations between the cells.
 
 | ![Haversine smoothing curves](/images/haversineLoss.png) |
 |:---:|           
@@ -142,7 +142,7 @@ Building on its powerful geocell classification, PIGEON further refines its loca
 
 **Middle layer:** Within each predicted cell, training points are clustered using the OPTICS density-based algorithm, and each cluster is represented by the centroid of its CLIP image embeddings. During inference, the query embedding is assigned to the nearest cluster in Euclidean space.  
 
-**Bottom layer:** Finally, PIGEON selects the single closest location within that cluster—adding two extra levels of granularity beyond the initial cell prediction.
+**Bottom layer:** Finally, PIGEON selects the single closest location within that cluster, adding two extra levels of granularity beyond the initial cell prediction.
 
 | ![Three-level hierarchical retrieval diagram](/images/threeLayers.png) |
 |:---:|           
@@ -240,7 +240,7 @@ In this landmark photograph, PIGEOTTO which is trained on landmarks can easily g
 |:---:|           
 |Figure 9: Sample of a floating buoy on the coast of Denmark.|
 
-By contrast, this is a generic image of a buoy floating on a body of water. PIGEOTTO still identifies that the image is taken from or near the sea, but its highest-probability guess lands off the coast of the northeastern United States—over 5500 km from Denmark. This large error underscores how maritime scenes without distinct, place-specific markers remain a significant challenge for geolocation models.
+By contrast, this is a generic image of a buoy floating on a body of water. PIGEOTTO still identifies that the image is taken from or near the sea, but its highest-probability guess lands off the coast of the northeastern United States, over 5500 km from Denmark. This large error underscores how maritime scenes without distinct, place-specific markers remain a significant challenge for geolocation models.
 
 These examples demonstrate PIGEOTTO’s proficiency in leveraging learned visual cues for precise landmark localization, while also exposing its limitations when distinctive, place‐specific features are absent.
 
@@ -255,8 +255,7 @@ Now that we've covered the qualitatitve analysis we jump into some numbers.
 
  | ![Geoguessr Divisions](/images/geoGuessrDivisionsEval.png) |
 |:---:|           
-|Figure 10: Geolocalization error of PIGEON against human players of various in-game skill levels across 458 multi-round
-matches. The Champion Division consists of the top 0.01% of players. The median error is higher since GeoGuessr round difficulties are adjusted dynamically, increasing with every round.| 
+|Figure 10: Geolocalization error of PIGEON against human players of various in-game skill levels across 458 multi-round matches. The Champion Division consists of the top 0.01% of players. The median error is higher since GeoGuessr round difficulties are adjusted dynamically, increasing with every round.| 
 
 In addition to that we can really recommend watching the following video where the authors put their model to the test against an actual Geoguessr professionals in a live match:
 
@@ -284,8 +283,7 @@ To quantify the contribution of each major component in PIGEON, the authors perf
 
 | ![Ablations](/images/ablations.png) |
 |:---:|           
-|Figure 12: Cumulative ablation study of the authors' image geolocalization system on a holdout dataset of 5,000 Street View
-locations.|
+|Figure 12: Cumulative ablation study of the authors' image geolocalization system on a holdout dataset of 5,000 Street View locations.|
 
 Removing the four-image panorama input has the most dramatic effect on PIGEON’s performance. Without it, country­-level accuracy plunges by nearly 13 % and the mean localization error roughly triples. This makes sense since three additional images of the surroundings introduce new information to make a better guess.
 Also omitting the haversine-smoothed loss in training leads to a drop of over 2 % on the country-level accuracy. Additionally, the mean and median errors worsen significantly without this novel loss function, likely due to the edge cases discussed in the “Distance-Based Label Smoothing” section.
