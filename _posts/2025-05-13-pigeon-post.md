@@ -11,7 +11,7 @@ classes: wide
 
 ## Motivation
 
-GeoGuessr, a popular online game with a dedicated community, challenges players to identify locations from images provided by Google Street View, demonstrating the difficulty of accurately guessing image locations. Advances in artificial intelligence (AI), particularly in multimodal and visual AI technologies, have created opportunities to automate and enhance this task significantly. Inspired by this concept, the introduction of the PIGEON model "Predicting Image Geolocations" leverages advanced visual embeddings from CLIP-ViT to significantly improve accuracy in automated image geolocation. <br>
+GeoGuessr, a popular online game with a dedicated community, challenges players to identify locations from images provided by Google Street View, demonstrating the difficulty of accurately guessing image locations. Advances in artificial intelligence (AI), particularly in multimodal and visual AI technologies, have created opportunities to automate and enhance this task significantly. Inspired by this concept, the introduction of the PIGEON model "Predicting Image Geolocations" [<a href="#ref5">5</a>] leverages advanced visual embeddings from CLIP-ViT [<a href="#ref14">14</a>] to significantly improve accuracy in automated image geolocation. <br>
 
 This blog post aims to provide a comprehensive overview of the key ideas behind PIGEON, place it within the broader context of multimodal AI research, and explore practical applications and ethical considerations of this technology. As we will later showcase, this approach can even outperform GeoGuessr professionals in pinpointing geolocations on the map based on Street View images.
 Join us as we explore the capabilities of PIGEON!
@@ -46,13 +46,13 @@ Join us as we explore the capabilities of PIGEON!
 
 The problem of geolocalization—that is, mapping an image to coordinates identifying where it was taken—has long been a challenging area in computer vision. Several factors contribute to this complexity, including variations in daytime, weather conditions, viewing angles, illumination, and more.
 
-An early modern approach was IM2GPS , which employed a retrieval-based method using handcrafted visual features. However, this technique required an extensive database of reference images, making it impractical for planet-scale geolocalization tasks. As a result, later researchers narrowed their geographic scope, focusing on specific cities such as Orlando and Pittsburgh, entire countries like the U.S. , and even specific geographical features like mountain ranges, deserts, and beaches.
+An early modern approach was IM2GPS [<a href="#ref6">6</a>], which employed a retrieval-based method using handcrafted visual features. However, this technique required an extensive database of reference images, making it impractical for planet-scale geolocalization tasks. As a result, later researchers narrowed their geographic scope, focusing on specific cities such as Orlando and Pittsburgh [<a href="#ref22">22</a>], entire countries like the U.S. [<a href="#ref17">17</a>], and even specific geographical features like mountain ranges [<a href="#ref15">15</a>] [<a href="#ref18">18</a>], deserts [<a href="#ref19">19</a>], and beaches [<a href="#ref3">3</a>].
 
-The rise of deep learning significantly shifted image geolocalization methods from handcrafted features to end-to-end learning. Google’s 2016 released "Planet" paper marked the first attempt to apply convolutional neural networks (CNNs) to geolocalization, framing it as a classification problem across geocells. Subsequently, researchers leveraged deep learning improvements to train CNNs on large datasets of mobile images , even deploying these models in competitive settings against human players in the game GeoGuessr.
+The rise of deep learning significantly shifted image geolocalization methods from handcrafted features to end-to-end learning [<a href="#ref11">11</a>]. Google’s 2016 released "Planet" paper marked the first attempt to apply convolutional neural networks (CNNs) to geolocalization, framing it as a classification problem across geocells[<a href="#ref21">21</a>]. Subsequently, researchers leveraged deep learning improvements to train CNNs on large datasets of mobile images [<a href="#ref7">7</a>], even deploying these models in competitive settings against human players in the game GeoGuessr [<a href="#ref17">17</a>] [<a href="#ref10">10</a>].
 
-Recently, transformer architectures—originally successful in natural language processing—have found their place in computer vision. Pretrained vision transformers (ViT) and multimodal models like OpenAI’s CLIP and GPT-4V have also been effectively applied to the task of image geolocalization.
+Recently, transformer architectures—originally successful in natural language processing—have found their place in computer vision. Pretrained vision transformers (ViT) [<a href="#ref8">8</a>] and multimodal models like OpenAI’s CLIP [<a href="#ref14">14</a>] and GPT-4V [<a href="#ref13">13</a>] have also been effectively applied to the task of image geolocalization.
 
-When treating geolocation as a classification problem, a crucial question arises: How should the world be partitioned into geographical classes? Previous approaches have used simple rectangular geocells, rectangular cells adjusted for Earth's curvature and balanced size, or arbitrarily shaped geocells resulting from combinatorial partitioning. However, a significant disadvantage of these methods is their failure to capture meaningful geographic characteristics due to arbitrary boundaries. The PIGEON model addresses this limitation by integrating geographic features directly into the construction of geocells, as discussed in the following section.
+When treating geolocation as a classification problem, a crucial question arises: How should the world be partitioned into geographical classes? Previous approaches have used simple rectangular geocells, rectangular cells adjusted for Earth's curvature and balanced size [<a href="#ref12">12</a>], or arbitrarily shaped geocells resulting from combinatorial partitioning [<a href="#ref16">16</a>]. However, a significant disadvantage of these methods is their failure to capture meaningful geographic characteristics due to arbitrary boundaries. The PIGEON model addresses this limitation by integrating geographic features directly into the construction of geocells, as discussed in the following section.
 
 ### Geocell Division
 
@@ -73,7 +73,7 @@ By embedding richer geographic context into the data, semantic geocells ultimate
 
 Despite the advantages provided by semantic geocells, a fundamental issue remains: some regions naturally attract more images, particularly popular landmarks or tourist hotspots. This uneven distribution can create class imbalance, posing challenges for effective model training.
 
-To address this imbalance, the authors propose a targeted clustering strategy using the OPTICS algorithm. OPTICS identifies densely photographed regions, grouping images into meaningful clusters. Each image is then assigned to a specific cluster, which helps balance the number of images per geocell.
+To address this imbalance, the authors propose a targeted clustering strategy using the OPTICS algorithm [<a href="#ref1">1</a>]. OPTICS identifies densely photographed regions, grouping images into meaningful clusters. Each image is then assigned to a specific cluster, which helps balance the number of images per geocell.
 
 Finally, a Voronoi tessellation ensures these adjusted geocells remain spatially continuous and coherent. By creating contiguous geographic areas around each cluster, this method enables PIGEON to better manage densely photographed locations, ultimately improving both the accuracy and reliability of its predictions.
 
@@ -90,7 +90,7 @@ Finally, a Voronoi tessellation ensures these adjusted geocells remain spatially
 - Added to each image, containing information about the location (e.g., climate, region, season, etc.)
 - CLIP uses these to better generalize the given images
 
-In PIGEON, synthetic image captions play a central role in the multi‑task contrastive pretraining of its vision-language model (CLIP). These captions aren’t human-written but are automatically generated using auxiliary geographic metadata—such as Köppen–Geiger climate zone, elevation, season, population density, and even the predominant driving side in a country. These labels are sourced from open geospatial datasets to describe each training image’s location context.
+In PIGEON, synthetic image captions play a central role in the multi‑task contrastive pretraining of its vision-language model (CLIP). These captions aren’t human-written but are automatically generated using auxiliary geographic metadata—such as Köppen–Geiger climate zone [<a href="#ref2">2</a>], elevation, season, population density, and even the predominant driving side in a country. These labels are sourced from open geospatial datasets to describe each training image’s location context.
 
 Each synthetic caption typically includes information about:
 - Climate zone (e.g. “temperate maritime,” “tropical monsoon”)
@@ -140,7 +140,7 @@ Building on its powerful geocell classification, PIGEON further refines its loca
 
 **Top layer:** PIGEON first selects its top K = 5 candidate geocells based on the pretrained CLIP-ViT probabilities.  
 
-**Middle layer:** Within each predicted cell, training points are clustered using the OPTICS density-based algorithm, and each cluster is represented by the centroid of its CLIP image embeddings. During inference, the query embedding is assigned to the nearest cluster in Euclidean space.  
+**Middle layer:** Within each predicted cell, training points are clustered using the OPTICS density-based algorithm [<a href="#ref1">1</a>], and each cluster is represented by the centroid of its CLIP image embeddings. During inference, the query embedding is assigned to the nearest cluster in Euclidean space.  
 
 **Bottom layer:** Finally, PIGEON selects the single closest location within that cluster, adding two extra levels of granularity beyond the initial cell prediction.
 
@@ -299,10 +299,6 @@ No ablation studies were conducted for PIGEOTTO.
 
 ## Ethical Considerations
 
-### Ethical Considerations
-
-### Ethical Considerations
-
 Before outlining specific concerns, it’s important to acknowledge that advances in image geolocalization bring both powerful benefits and potential harms. The following points highlight key ethical issues to address as this technology matures:
 
 - **Dual-Use Risks:** Systems like PIGEON and PIGEOTTO can greatly enhance scientific research, environmental monitoring, and navigation in remote areas by accurately determining locations from images. However, these same capabilities can be repurposed for covert surveillance, unauthorized tracking of individuals or assets, and even military targeting. Without clear oversight and accountability mechanisms, dual-use applications pose a significant risk of abuse.
@@ -327,8 +323,6 @@ That said, PIGEON still encounters scenarios where uncertainty remains high (sho
 
 
 
----
-
 ## References
 
 <a id="ref1"></a>
@@ -341,52 +335,58 @@ That said, PIGEON still encounters scenarios where uncertainty remains high (sho
 3. Cao, L., Smith, J. R., Wen, Z., Yin, Z., Jin, X., and Han, J. “BlueFinder: Estimate Where a Beach Photo Was Taken.” In *WWW ’12 Companion*, pp. 469–470, New York, NY, USA, 2012. https://doi.org/10.1145/2187980.2188081
 
 <a id="ref4"></a>
-4. Haas, L., Skreta, M., Alberti, S., and Finn, C. “PIGEON: Predicting Image Geolocations.” Accepted at CVPR 2024. arXiv:2307.05845. https://doi.org/10.48550/arXiv.2307.05845
+4. Clark, B., Kerrigan, A., Kulkarni, P. P., Cepeda, V. V., and Shah, M. “Where We Are and What We’re Looking At: Query-Based Worldwide Image Geo-localization Using Hierarchies and Scenes.” 2023.
 
 <a id="ref5"></a>
-5. Hays, J. and Efros, A. A. “IM2GPS: Estimating Geographic Information from a Single Image.” In *CVPR 2008*. (no DOI available)
+5. Haas, L., Skreta, M., Alberti, S., and Finn, C. “PIGEON: Predicting Image Geolocations.” Accepted at CVPR 2024. arXiv:2307.05845. https://doi.org/10.48550/arXiv.2307.05845
 
 <a id="ref6"></a>
-6. Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., Andreetto, M., and Adam, H. “MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications.” 2017. https://arxiv.org/abs/1704.04861
+6. Hays, J. and Efros, A. A. “IM2GPS: Estimating Geographic Information from a Single Image.” In *CVPR 2008*.
 
 <a id="ref7"></a>
-7. Kolesnikov, A., Dosovitskiy, A., Weissenborn, D., Heigold, G., Uszkoreit, J., Beyer, L., Minderer, M., Dehghani, M., Houlsby, N., Gelly, S., Unterthiner, T., and Zhai, X. “An Image Is Worth 16×16 Words: Transformers for Image Recognition at Scale.” 2021. (no DOI available)
+7. Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., Andreetto, M., and Adam, H. “MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications.” 2017. https://arxiv.org/abs/1704.04861
 
 <a id="ref8"></a>
-8. Luo, G., Biamby, G., Darrell, T., Fried, D., and Rohrbach, A. “G³: Geolocation via Guidebook Grounding.” In *Findings of EMNLP 2022*, pp. 5841–5853. https://aclanthology.org/2022.findings-emnlp.430
+8. Kolesnikov, A., Dosovitskiy, A., Weissenborn, D., Heigold, G., Uszkoreit, J., Beyer, L., Minderer, M., Dehghani, M., Houlsby, N., Gelly, S., Unterthiner, T., and Zhai, X. “An Image Is Worth 16×16 Words: Transformers for Image Recognition at Scale.” 2021.
 
 <a id="ref9"></a>
-9. Masone, C. and Caputo, B. “A Survey on Deep Visual Place Recognition.” *IEEE Access* 9:19516–19547, 2021. https://doi.org/10.1109/ACCESS.2021.3054937
+9. Larson, M., Soleymani, M., Gravier, G., Ionescu, B., and Jones, G. J. “The Benchmarking Initiative for Multimedia Evaluation: MediaEval 2016.” *IEEE MultiMedia* 24(1):93–96, 2017. https://doi.org/10.1109/MMUL.2017.9
 
 <a id="ref10"></a>
-10. Müller-Budack, E., Pustu-Iren, K., and Ewerth, R. “Geolocation Estimation of Photos Using a Hierarchical Model and Scene Classification.” In *ECCV 2018*, pp. 575–592. https://doi.org/10.1007/s11263-015-0830-0
+10. Luo, G., Biamby, G., Darrell, T., Fried, D., and Rohrbach, A. “G³: Geolocation via Guidebook Grounding.” In *Findings of EMNLP 2022*, pp. 5841–5853. https://aclanthology.org/2022.findings-emnlp.430
 
 <a id="ref11"></a>
-11. OpenAI. “GPT-4V(ision) System Card,” September 2023. (no DOI)
+11. Masone, C. and Caputo, B. “A Survey on Deep Visual Place Recognition.” *IEEE Access* 9:19516–19547, 2021. https://doi.org/10.1109/ACCESS.2021.3054937
 
 <a id="ref12"></a>
-12. Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. “Learning Transferable Visual Models From Natural Language Supervision.” 2021. (no DOI)
+12. Müller-Budack, E., Pustu-Iren, K., and Ewerth, R. “Geolocation Estimation of Photos Using a Hierarchical Model and Scene Classification.” In *ECCV 2018*, pp. 575–592. https://doi.org/10.1007/s11263-015-0830-0
 
 <a id="ref13"></a>
-13. Saurer, O., Baatz, G., Köser, K., Ladický, L., and Pollefeys, M. “Image-Based Geo-localization in the Alps.” *International Journal of Computer Vision* 116(3):213–225, Feb 2016. https://doi.org/10.1007/s11263-015-0830-0
+13. OpenAI. “GPT-4V(ision) System Card,” September 2023.
 
 <a id="ref14"></a>
-14. Seo, P. H., Weyand, T., Sim, J., and Han, B. “CPlaNet: Enhancing Image Geolocalization by Combinatorial Partitioning of Maps.” 2018. (no DOI)
+14. Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. “Learning Transferable Visual Models From Natural Language Supervision.” 2021.
 
 <a id="ref15"></a>
-15. Suresh, S., Chodosh, N., and Abello, M. “DeepGeo: Photo Localization with Deep Neural Network.” 2018. https://arxiv.org/abs/1810.03077
+15. Saurer, O., Baatz, G., Köser, K., Ladický, L., and Pollefeys, M. “Image-Based Geo-localization in the Alps.” *International Journal of Computer Vision* 116(3):213–225, Feb 2016. https://doi.org/10.1007/s11263-015-0830-0
 
 <a id="ref16"></a>
-16. Suresh, S., Chodosh, N., and Abello, M. “DeepGeo: Photo Localization with Deep Neural Network.” 2018. https://arxiv.org/abs/1810.03077
+16. Seo, P. H., Weyand, T., Sim, J., and Han, B. “CPlaNet: Enhancing Image Geolocalization by Combinatorial Partitioning of Maps.” 2018.
 
 <a id="ref17"></a>
-17. Tomešek, J., Cadík, M., and Brejcha, J. “CrossLocate: Cross-Modal Large-Scale Visual Geo-Localization in Natural Environments Using Rendered Modalities.” In *WACV 2022*, pp. 3174–3183, January 2022. (no DOI)
+17. Suresh, S., Chodosh, N., and Abello, M. “DeepGeo: Photo Localization with Deep Neural Network.” 2018. https://arxiv.org/abs/1810.03077
 
 <a id="ref18"></a>
-18. Tzeng, E., Zhai, A., Clements, M., Townshend, R., and Zakhor, A. “User-Driven Geolocation of Untagged Desert Imagery Using Digital Elevation Models.” In *CVPR Workshops 2013*, pp. 237–244. https://doi.org/10.1109/CVPRW.2013.42
+18. Tomešek, J., Cadík, M., and Brejcha, J. “CrossLocate: Cross-Modal Large-Scale Visual Geo-Localization in Natural Environments Using Rendered Modalities.” In *WACV 2022*, pp. 3174–3183, January 2022.
 
 <a id="ref19"></a>
-19. Weyand, T., Kostrikov, I., and Philbin, J. “PlaNet – Photo Geolocation with Convolutional Neural Networks.” In *ECCV 2016*. (no DOI)
+19. Tzeng, E., Zhai, A., Clements, M., Townshend, R., and Zakhor, A. “User-Driven Geolocation of Untagged Desert Imagery Using Digital Elevation Models.” In *CVPR Workshops 2013*, pp. 237–244. https://doi.org/10.1109/CVPRW.2013.42
 
 <a id="ref20"></a>
-20. Zamir, A. R. and Shah, M. “Image Geo-Localization Based on Multiple Nearest Neighbor Feature Matching Using Generalized Graphs.” *IEEE TPAMI* 36(8):1546–1558, 2014. https://doi.org/10.1109/TPAMI.2014.2299799
+20. Vo, N., Jacobs, N., and Hays, J. “Revisiting IM2GPS in the Deep Learning Era.” 2017.
+
+<a id="ref21"></a>
+21. Weyand, T., Kostrikov, I., and Philbin, J. “PlaNet – Photo Geolocation with Convolutional Neural Networks.” In *ECCV 2016*.
+
+<a id="ref22"></a>
+22. Zamir, A. R. and Shah, M. “Image Geo-Localization Based on Multiple Nearest Neighbor Feature Matching Using Generalized Graphs.” *IEEE TPAMI* 36(8):1546–1558, 2014. https://doi.org/10.1109/TPAMI.2014.2299799
