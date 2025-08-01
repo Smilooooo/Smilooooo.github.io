@@ -35,6 +35,7 @@ Join us as we explore the capabilities of PIGEON!
    - [Ablations](#ablations)  
 3. [Ethical Considerations](#ethical-considerations)  
 4. [Conclusion](#conclusion)
+5. [References](#references)
 
 
 ---
@@ -66,11 +67,21 @@ This approach offers significant advantages. Semantic geocells can capture disti
 
 By embedding richer geographic context into the data, semantic geocells ultimately enable PIGEON to make predictions that are both more accurate and realistic.
 
+| ![Naive vs. Semantic Geocell](/images/naive_semantic_geocell.png) |
+|:---:|           
+|Figure 1: Naive vs. Semantic geocells.|
+
 Despite the advantages provided by semantic geocells, a fundamental issue remains: some regions naturally attract more images, particularly popular landmarks or tourist hotspots. This uneven distribution can create class imbalance, posing challenges for effective model training.
 
 To address this imbalance, the authors propose a targeted clustering strategy using the OPTICS algorithm. OPTICS identifies densely photographed regions, grouping images into meaningful clusters. Each image is then assigned to a specific cluster, which helps balance the number of images per geocell.
 
 Finally, a Voronoi tessellation ensures these adjusted geocells remain spatially continuous and coherent. By creating contiguous geographic areas around each cluster, this method enables PIGEON to better manage densely photographed locations, ultimately improving both the accuracy and reliability of its predictions.
+
+
+| ![Example Voronoi Tesselation](/images/voronoi_tessellation.png) |
+|:---:|           
+|Figure 2: Example of Voronoi Tessellation for a geocell in Vienna.|
+
 
 
 
@@ -321,24 +332,63 @@ That said, PIGEON still encounters scenarios where uncertainty remains high (sho
 ---
 
 ## References
-1. Ankerst, M., Breunig, M. M., Kriegel, H.-P., and Sander, J. OPTICS: Ordering Points to Identify the Clustering Structure. In Proceedings of the 1999 ACM SIGMOD International Conference on Management of Data, SIGMOD ’99, pp. 49–60, New York, NY, USA, 1999. Association for Computing Machinery. ISBN 1581130848. doi:10.1145/304182.304187. URL https://doi.org/10.1145/304182.304187.  
-2. Beck, H. E., Zimmermann, N. E., McVicar, T. R., Vergopolan, N., Berg, A., and Wood, E. F. Present and future Köppen-Geiger climate classification maps at 1-km resolution. Scientific Data, 5(1):180214, Oct 2018. ISSN 2052-4463. doi:10.1038/sdata.2018.214. URL https://doi.org/10.1038/sdata.2018.214.  
-3. Cao, L., Smith, J. R., Wen, Z., Yin, Z., Jin, X., and Han, J. BlueFinder: Estimate Where a Beach Photo Was Taken. In Proceedings of the 21st International Conference on World Wide Web, WWW ’12 Companion, pp. 469–470, New York, NY, USA, 2012. Association for Computing Machinery. ISBN 9781450312301. doi:10.1145/2187980.2188081. URL https://doi.org/10.1145/2187980.2188081.  
-4. Haas, L., Skreta, M., Alberti, S., and Finn, C., 2024, PIGEON: Predicting Image Geolocations. Accepted at CVPR 2024. arXiv:2307.05845 [cs.CV]. URL https://doi.org/10.48550/arXiv.2307.05845.  
-5. Hays, J. and Efros, A. A. IM2GPS: estimating geographic information from a single image. In Proceedings of the IEEE Conf. on Computer Vision and Pattern Recognition (CVPR), 2008.  
-6. Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., Andreetto, M., and Adam, H. MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications, 2017. URL https://arxiv.org/abs/1704.04861.  
-7. Kolesnikov, A., Dosovitskiy, A., Weissenborn, D., Heigold, G., Uszkoreit, J., Beyer, L., Minderer, M., Dehghani, M., Houlsby, N., Gelly, S., Unterthiner, T., and Zhai, X. An image is worth 16×16 words: Transformers for image recognition at scale. 2021.  
-8. Luo, G., Biamby, G., Darrell, T., Fried, D., and Rohrbach, A. Gˆ3: Geolocation via Guidebook Grounding. In Findings of the Association for Computational Linguistics: EMNLP 2022, pp. 5841–5853, Abu Dhabi, United Arab Emirates, December 2022. Association for Computational Linguistics. URL https://aclanthology.org/2022.findings-emnlp.430.  
-9. Masone, C. and Caputo, B. A Survey on Deep Visual Place Recognition. IEEE Access, 9:19516–19547, 2021. doi:10.1109/ACCESS.2021.3054937.  
-10. Müller-Budack, E., Pustu-Iren, K., and Ewerth, R. Geolocation Estimation of Photos Using a Hierarchical Model and Scene Classification. In Ferrari, V., Hebert, M., Sminchisescu, C., and Weiss, Y. (eds.), Computer Vision – ECCV 2018, pp. 575–592, Cham, 2018. Springer International Publishing. ISBN 978-3-030-01258-8.  
-11. OpenAI. GPT-4V(ision) System Card, September 2023.  
-12. Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. Learning Transferable Visual Models From Natural Language Supervision, 2021.  
-13. Saurer, O., Baatz, G., Köser, K., Ladický, L., and Pollefeys, M. Image Based Geo-localization in the Alps. International Journal of Computer Vision, 116(3):213–225, Feb 2016. ISSN 1573-1405. doi:10.1007/s11263-015-0830-0. URL https://doi.org/10.1007/s11263-015-0830-0.  
-14. Seo, P. H., Weyand, T., Sim, J., and Han, B. CPlaNet: Enhancing Image Geolocalization by Combinatorial Partitioning of Maps, 2018.  
-15. Suresh, S., Chodosh, N., and Abello, M. DeepGeo: Photo Localization with Deep Neural Network, 2018. URL https://arxiv.org/abs/1810.03077.  
-16. Suresh, S., Chodosh, N., and Abello, M. DeepGeo: Photo Localization with Deep Neural Network, 2018. URL https://arxiv.org/abs/1810.03077.  
-17. Tomešek, J., Cadík, M., and Brejcha, J. CrossLocate: Cross-Modal Large-Scale Visual Geo-Localization in Natural Environments Using Rendered Modalities. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 3174–3183, January 2022.  
-18. Tzeng, E., Zhai, A., Clements, M., Townshend, R., and Zakhor, A. User-Driven Geolocation of Untagged Desert Imagery Using Digital Elevation Models. In 2013 IEEE Conference on Computer Vision and Pattern Recognition Workshops, pp. 237–244, 2013. doi:10.1109/CVPRW.2013.42.  
-19. Weyand, T., Kostrikov, I., and Philbin, J. PlaNet - Photo Geolocation with Convolutional Neural Networks. In European Conference on Computer Vision (ECCV), 2016.  
-20. Zamir, A. R. and Shah, M. Image Geo-Localization Based on Multiple Nearest Neighbor Feature Matching Using Generalized Graphs. IEEE Transactions on Pattern Analysis and Machine Intelligence, 36(8):1546–1558, 2014. doi:10.1109/TPAMI.2014.2299799.  
 
+<a id="ref1"></a>
+1. Ankerst, M., Breunig, M. M., Kriegel, H.-P., and Sander, J. “OPTICS: Ordering Points to Identify the Clustering Structure.” In *SIGMOD ’99*, pp. 49–60, New York, NY, USA, 1999. https://doi.org/10.1145/304182.304187
+
+<a id="ref2"></a>
+2. Beck, H. E., Zimmermann, N. E., McVicar, T. R., Vergopolan, N., Berg, A., and Wood, E. F. “Present and Future Köppen–Geiger Climate Classification Maps at 1-km Resolution.” *Scientific Data* 5(1):180214, Oct 2018. https://doi.org/10.1038/sdata.2018.214
+
+<a id="ref3"></a>
+3. Cao, L., Smith, J. R., Wen, Z., Yin, Z., Jin, X., and Han, J. “BlueFinder: Estimate Where a Beach Photo Was Taken.” In *WWW ’12 Companion*, pp. 469–470, New York, NY, USA, 2012. https://doi.org/10.1145/2187980.2188081
+
+<a id="ref4"></a>
+4. Haas, L., Skreta, M., Alberti, S., and Finn, C. “PIGEON: Predicting Image Geolocations.” Accepted at CVPR 2024. arXiv:2307.05845. https://doi.org/10.48550/arXiv.2307.05845
+
+<a id="ref5"></a>
+5. Hays, J. and Efros, A. A. “IM2GPS: Estimating Geographic Information from a Single Image.” In *CVPR 2008*. (no DOI available)
+
+<a id="ref6"></a>
+6. Howard, A. G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., Andreetto, M., and Adam, H. “MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications.” 2017. https://arxiv.org/abs/1704.04861
+
+<a id="ref7"></a>
+7. Kolesnikov, A., Dosovitskiy, A., Weissenborn, D., Heigold, G., Uszkoreit, J., Beyer, L., Minderer, M., Dehghani, M., Houlsby, N., Gelly, S., Unterthiner, T., and Zhai, X. “An Image Is Worth 16×16 Words: Transformers for Image Recognition at Scale.” 2021. (no DOI available)
+
+<a id="ref8"></a>
+8. Luo, G., Biamby, G., Darrell, T., Fried, D., and Rohrbach, A. “G³: Geolocation via Guidebook Grounding.” In *Findings of EMNLP 2022*, pp. 5841–5853. https://aclanthology.org/2022.findings-emnlp.430
+
+<a id="ref9"></a>
+9. Masone, C. and Caputo, B. “A Survey on Deep Visual Place Recognition.” *IEEE Access* 9:19516–19547, 2021. https://doi.org/10.1109/ACCESS.2021.3054937
+
+<a id="ref10"></a>
+10. Müller-Budack, E., Pustu-Iren, K., and Ewerth, R. “Geolocation Estimation of Photos Using a Hierarchical Model and Scene Classification.” In *ECCV 2018*, pp. 575–592. https://doi.org/10.1007/s11263-015-0830-0
+
+<a id="ref11"></a>
+11. OpenAI. “GPT-4V(ision) System Card,” September 2023. (no DOI)
+
+<a id="ref12"></a>
+12. Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. “Learning Transferable Visual Models From Natural Language Supervision.” 2021. (no DOI)
+
+<a id="ref13"></a>
+13. Saurer, O., Baatz, G., Köser, K., Ladický, L., and Pollefeys, M. “Image-Based Geo-localization in the Alps.” *International Journal of Computer Vision* 116(3):213–225, Feb 2016. https://doi.org/10.1007/s11263-015-0830-0
+
+<a id="ref14"></a>
+14. Seo, P. H., Weyand, T., Sim, J., and Han, B. “CPlaNet: Enhancing Image Geolocalization by Combinatorial Partitioning of Maps.” 2018. (no DOI)
+
+<a id="ref15"></a>
+15. Suresh, S., Chodosh, N., and Abello, M. “DeepGeo: Photo Localization with Deep Neural Network.” 2018. https://arxiv.org/abs/1810.03077
+
+<a id="ref16"></a>
+16. Suresh, S., Chodosh, N., and Abello, M. “DeepGeo: Photo Localization with Deep Neural Network.” 2018. https://arxiv.org/abs/1810.03077
+
+<a id="ref17"></a>
+17. Tomešek, J., Cadík, M., and Brejcha, J. “CrossLocate: Cross-Modal Large-Scale Visual Geo-Localization in Natural Environments Using Rendered Modalities.” In *WACV 2022*, pp. 3174–3183, January 2022. (no DOI)
+
+<a id="ref18"></a>
+18. Tzeng, E., Zhai, A., Clements, M., Townshend, R., and Zakhor, A. “User-Driven Geolocation of Untagged Desert Imagery Using Digital Elevation Models.” In *CVPR Workshops 2013*, pp. 237–244. https://doi.org/10.1109/CVPRW.2013.42
+
+<a id="ref19"></a>
+19. Weyand, T., Kostrikov, I., and Philbin, J. “PlaNet – Photo Geolocation with Convolutional Neural Networks.” In *ECCV 2016*. (no DOI)
+
+<a id="ref20"></a>
+20. Zamir, A. R. and Shah, M. “Image Geo-Localization Based on Multiple Nearest Neighbor Feature Matching Using Generalized Graphs.” *IEEE TPAMI* 36(8):1546–1558, 2014. https://doi.org/10.1109/TPAMI.2014.2299799
