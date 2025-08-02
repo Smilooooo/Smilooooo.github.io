@@ -315,10 +315,16 @@ These considerations illustrate that as image geolocalization technology advance
 
 ## Conclusion
 
-PIGEON and its extension PIGEOTTO represent a major advance in automated image geolocalization, combining powerful visual embeddings with spatially aware training objectives to achieve state-of-the-art accuracy on both Street View panoramas and arbitrary photographs. Through extensive qualitative and quantitative evaluations, including direct GeoGuessr duels and large-scale benchmark tests, their hybrid classification-and-retrieval framework has proven both robust and generalizable.
+PIGEON and PIGEOTTO are seriously impressive steps forward in the world of image geolocation. They combine strong visual representations with clever training tricks, like distance-aware loss and synthetic captions, to build models that don’t just work on paper but actually perform well in real-world settings. Whether it’s guessing Street View locations better than top GeoGuessr players or handling a wide mix of images from Flickr and Wikipedia, these models show what’s possible when you bring together smart architecture and thoughtful training data.
+What stood out to us while digging into this work was just how much attention the authors paid to the messy details. Instead of forcing the Earth into a grid and hoping the model figures things out, they leaned into geographic structure, using things like country borders, population density, and even driving side to shape the training data. It feels like a rare example where geographic intuition and deep learning actually work together.
 
-That said, PIGEON still encounters scenarios where uncertainty remains high (showcased in the qualitative results section). Future work could address these gaps by refining the model architecture, incorporating more training samples for hard cases. At the same time, it’s essential to uphold transparency, accountability, and ethical governance so that this powerful technology continues to serve the public good.
+We also really enjoyed seeing how the model behaves. Watching PIGEON pick up on road signs or utility poles (just like a seasoned GeoGuessr pro would) was honestly kind of mind-blowing. It’s cool to see how far these models can go with the right kind of supervision, even if no one ever explicitly told them what to look for.
 
+That said, the paper doesn’t shy away from the tricky parts either. There are still cases, like forests without clear landmarks or totally dark scenes, where the models struggle. And that’s okay. We actually appreciated that the authors were upfront about those limitations rather than sweeping them under the rug.
+
+On the flip side, these models are powerful, and with that comes a need to think carefully about how they’re used. Being able to figure out where a photo was taken might sound like a fun party trick, but it also has real privacy and security implications. It’s good to see the authors taking this seriously, holding back pretrained weights and emphasizing ethical use. We think more projects in this space could follow that example.
+
+All in all, PIGEON and PIGEOTTO aren’t just good models, they’re also good examples of what it looks like when technical skill and practical thinking come together. And in the end, it was really our shared enthusiasm for GeoGuessr that ended up teaching us a whole lot about geolocation, multimodal AI, and deep learning.
 
 
 ## References
